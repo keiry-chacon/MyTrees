@@ -20,12 +20,7 @@ $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 
   <ul class="nav nav-tabs" id="navId">
     
-      <?php if ($user && isset($user['username'])): ?>
-        Hola <?php echo $user['username']; ?>
-      <?php else: ?>
-        Hola Invitado
-      <?php endif; ?>
-    </li>
+      
   </ul>
 </body>
 

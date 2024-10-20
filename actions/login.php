@@ -11,19 +11,24 @@
       if ($user['State'] == 1) {
 
         session_start();
-        $_SESSION['Username'] = $user;
+        $_SESSION['Username']     = $user['Username'];
+        $_SESSION['ProfileImage'] = $user['Profile_Pic']; 
 
         
 
         if ($user['Role'] == 1) {
-          header('Location: ../index.php?error=Admin'); 
-        } else {
-          header('Location: ../index.php?error=User'); 
+          header('Location: ../admin.php'); 
+          exit();
+        } else if($user['Role'] == 2) {
+          header('Location: ../friend.php'); 
+          exit();
         }
       } else {
         header('Location: ../index.php?error=User doesn´t exist');
+        exit();
       }
     } else {
-      header('Location: ../index.php?error=error');
+      header('Location: ../index.php?error');
+      exit();
     }
   }

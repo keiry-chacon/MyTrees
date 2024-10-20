@@ -1,6 +1,5 @@
 <?php
 
-define('BASE_URL', '/WorkShop-5-Gredy-Corrales/');
 
 
 
@@ -302,19 +301,18 @@ function saveUser($user): bool {
     $email        = $user['email']; // Correo electrónico
     $phone        = $user['phone']; // Teléfono
     $gender       = $user['gender']; // Género
-    $url_pic       = $user['pic']; // Género
     $created_at   = date('Y-m-d H:i:s'); // Fecha y hora actuales
-    echo "Consulta SQL: $url_pic<br>";
-    echo "Valores: $nuevoId, $first_name, $last_name1, $last_name2, $username, $password, $email, $phone, $gender, " . $user['pic'] . ", $district_id, $created_at, $role<br>";
+    $url_pic      = $user['pic']; 
 
+   
     // Consulta SQL con sentencias preparadas
-    $sql = "INSERT INTO users (Id, First_Name, Last_Name1, Last_Name2, Username, Password, Email, Phone, Gender, Profile_Pic, District_Id, Created_At, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO users (Id, First_Name, Last_Name1, Last_Name2, Username, Password, Email, Phone, Gender, Profile_Pic, District_Id, Created_At, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
     try {
         $stmt = $conn->prepare($sql);
         
         // Vincula los parámetros
-        $stmt->bind_param("issssssssissi", $nuevoId, $first_name, $last_name1, $last_name2, $username, $password, $email, $phone, $gender, $url_pic, $district_id, $created_at, $role);
+        $stmt->bind_param("isssssssssisi", $nuevoId, $first_name, $last_name1, $last_name2, $username, $password, $email, $phone, $gender, $url_pic, $district_id, $created_at, $role);
         
         // Ejecuta la consulta
         $stmt->execute();
