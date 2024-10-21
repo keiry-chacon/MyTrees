@@ -2,7 +2,7 @@
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand d-flex flex-column align-items-center" href="admin.php">
+            <a class="navbar-brand d-flex flex-column align-items-center" href="friend.php"> <!-- Podria llevarlo a ajustes de la cuenta --> 
                 <img src="<?php echo htmlspecialchars($_SESSION['ProfileImage']); ?>" alt="Profile Image" class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
                 <div class="small text-center"><?php echo htmlspecialchars($_SESSION['Username']); ?></div> <!-- Nombre del usuario -->
             </a>
