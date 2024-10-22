@@ -1,0 +1,39 @@
+
+.form-group {
+        margin-bottom: 1rem; /* Espacio entre los grupos de formulario */
+}
+
+label {
+    display: block; /* Hace que el label ocupe todo el ancho */
+    margin-bottom: 0.5rem; /* Espacio debajo del label */
+    text-align: left; /* Alinear texto a la izquierda */
+}
+
+.form-control {
+    text-align: left; /* Alinear texto dentro del campo a la izquierda */
+    width: 100%; /* Asegura que el campo de texto ocupe todo el ancho disponible */
+}
+.container {
+    margin-top: 50px;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+img.rounded-circle {
+    border: 2px solid #ddd;
+    padding: 5px;
+}
+
+.edit-icon i {
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+button {
+    width: 100%;
+}
+

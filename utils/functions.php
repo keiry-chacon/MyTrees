@@ -178,6 +178,10 @@ function getUsers(): array {
 
 
 
+
+
+
+
 /*
 * Gets a specific user from the database with ID
 */
@@ -225,6 +229,57 @@ function getUserById($id_user): array {
   return $user;
 }
 
+function getUserData($username) {
+    // Aquí deberías establecer la conexión con la base de datos
+    $conn = getConnection();
+    
+    // Verificar si la conexión ha fallado
+    if ($conn->connect_error) {
+        die("Conexión fallida: " . $conn->connect_error);
+    }
+
+    // Consulta para obtener los datos del usuario según su ID
+    $stmt = $conn->prepare("SELECT * FROM users WHERE Username = ?");
+    $stmt->bind_param("s", $username); // "i" es para enteros
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    // Verifica si se encontró el usuario
+    if ($result->num_rows > 0) {
+        // Retornar los datos como un arreglo asociativo
+        return $result->fetch_assoc();
+    } else {
+        return null; // Usuario no encontrado
+    }
+}
+
+function getAvailableTreesCount() {
+ $conn = getConnection(); 
+
+    $sql = "SELECT COUNT(*) as count FROM trees WHERE StatusT = 1";
+    $result = $conn->query($sql);
+
+    if ($result) {
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    } else {
+        return 0; 
+    }
+}
+
+function getSoldTreesCount() {
+ $conn = getConnection(); 
+    $sql = "SELECT COUNT(*) as count FROM trees WHERE StatusT = 0";
+    $result = $conn->query($sql);
+
+    if ($result) {
+        $row = $result->fetch_assoc();
+        return $row['count'];
+    } else {
+        return 0; 
+    }
+}
 
 
 
@@ -428,4 +483,44 @@ function authenticate($login, $password): bool|array|null {
     }
 
     return false;
+}
+function getFriends(): array {
+    $conn = getConnection();
+    $genderCounts = [
+        'F' => 0, 
+        'M' => 0, 
+        'O' => 0  
+    ];
+
+    if ($conn) {
+        $query = "
+            SELECT Gender, COUNT(*) as count
+            FROM users 
+            WHERE StatusU = 1
+            AND Role_Id = 2
+            GROUP BY Gender
+        ";
+
+        $result = mysqli_query($conn, $query);
+
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $gender = $row['Gender'];
+                $count = $row['count'];
+
+                if (isset($genderCounts[$gender])) {
+                    $genderCounts[$gender] = $count;
+                }
+            }
+            mysqli_free_result($result);
+        } else {
+            echo "Error en la consulta: " . mysqli_error($conn);
+        }
+
+        mysqli_close($conn);
+    } else {
+        echo "Error en la conexión: " . mysqli_connect_error();
+    }
+
+    return $genderCounts; 
 }

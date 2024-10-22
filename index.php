@@ -23,6 +23,6 @@
       </div>
       <button type="submit" class="btn btn-primary"> Login </button>
     </form>
-    <a href="signup.php" class="btn btn-secondary mt-3">Registrarse</a>
+    <a href="signup.php" class="btn btn-secondary mt-3">Have you not registered yet?</a>
   </div>
 <?php require('inc/footer.php');

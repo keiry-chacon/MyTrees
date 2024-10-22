@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <?php
   include('utils/functions.php');
@@ -28,10 +29,20 @@
 
       <div class="container">
         <form action="index.php" method="POST"  enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="profilePic">Profile Picture</label>
-              <input type="file" class="form-control" name="profilePic" id="profilePic" accept="image/png, image/jpeg" multiple="true">
-            </div>
+        <div class="form-group">
+        <label for="profilePic" style="display: none;">Profile Picture</label>
+        <input type="file" class="form-control" name="profilePic" id="profilePic" accept="image/png, image/jpeg" style="display: none;" required>
+    </div>
+
+    <div style="position: relative; display: inline-block;">
+        <img id="previewImage" src="img/default_profile.png"  class="rounded-circle" style="width: 150px; height: 150px;">
+        
+        <!-- Icono de lápiz -->
+        <span class="edit-icon" style="position: absolute; top: 10px; right: 10px; cursor: pointer;" id="editProfilePic">
+            <i class="fas fa-pencil-alt"></i>
+        </span>
+    </div>
+
             <div class="form-group">
                 <label for="first-name">First Name</label>
                 <input id="first-name" class="form-control" type="text" name="first_name" required>
@@ -100,7 +111,27 @@
     <!-- AJAX para actualizar las provincias y distritos -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  // Al cambiar el país, cargar las provincias
+    const fileInput = document.getElementById('profilePic');
+    const previewImage = document.getElementById('previewImage');
+    const editProfilePic = document.getElementById('editProfilePic');
+
+    fileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Obtener el primer archivo seleccionado
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result; // Cambiar la fuente de la imagen de vista previa
+            }
+            reader.readAsDataURL(file); // Leer el archivo como una URL de datos
+        }
+    });
+
+    editProfilePic.addEventListener('click', function() {
+        fileInput.click(); // Simular un clic en el input de archivo
+    });
+</script>
+
+<script>
   $('#country').on('change', function() {
     var country_id = $(this).val();
 
@@ -115,7 +146,6 @@
     });
   });
 
-  // Al cambiar la provincia, cargar los distritos
   $('#province').on('change', function() {
     var province_id = $(this).val();
 
