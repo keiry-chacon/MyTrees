@@ -11,6 +11,7 @@ if ($_POST) {
         session_start();
         $_SESSION['Username']     = $user['username'];
         $_SESSION['ProfileImage'] = $user['profile_pic'];
+        $_SESSION['Role_id']      = $user['role_id']; 
 
         if ($user['role_id'] == 1) {
             header('Location: ../admin.php'); 

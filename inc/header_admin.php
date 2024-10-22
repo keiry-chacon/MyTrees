@@ -7,16 +7,16 @@
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="../admin.php">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="../manage_trees.php">Administrar Árboles</a></li>
-                <li class="nav-item"><a class="nav-link" href="../manage_species.php">Administrar Especies</a></li>
-                <li class="nav-item"><a class="nav-link" href="../manage_friends.php">Administrar Amigos</a></li>
+                <li class="nav-item"><a class="nav-link" href="../admin.php">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="../manage_trees.php">Manage Trees</a></li>
+                <li class="nav-item"><a class="nav-link" href="/MyTrees/manage_species.php">Manage Species</a></li>
+                <li class="nav-item"><a class="nav-link" href="../manage_friends.php">Manage Friends</a></li>
             </ul>
         </div>
         <!-- Submenú -->
         <div id="profileSubmenu" class="dropdown-menu" aria-labelledby="profileMenuToggle" style="display: none;">
-        <a class="dropdown-item" href="../inc/profile.php?username=<?php echo urlencode($_SESSION['Username']); ?>">Perfil</a>
-        <a class="dropdown-item" href="actions/logout.php">Cerrar Sesión</a>
+        <a class="dropdown-item" href="../inc/profile.php?username=<?php echo urlencode($_SESSION['Username']); ?>">Profile</a>
+        <a class="dropdown-item" href="actions/logout.php">Log Out</a>
         </div>
     </nav>
 </header>
