@@ -110,7 +110,7 @@ function getSpecieById($id_specie): array {
         echo "Connection error: " . mysqli_connect_error();
     }
     return $species;
-  }
+}
 
 
 
@@ -150,21 +150,15 @@ function saveSpecie($specie): bool {
 /*
 * Updates about an specific user into the database
 */
-function updateUser($user, $id_user): bool {
+function updateSpecie($specie, $id_specie): bool {
 
-    $first_name  = $user['first_name'];
-    $last_name   = $user['last_name'];
-    $username    = $user['username'];
-    $password    = $user['password'];
-    $province    = $user['province'];
+    $Commercial_Name   = $specie['commercial_name'];
+    $Scientific_Name   = $specie['scientific_name'];
 
-    $sql = "UPDATE users SET 
-                first_name = '$first_name', 
-                last_name = '$last_name', 
-                username = '$username', 
-                password = '$password', 
-                province_id = '$province' 
-            WHERE id_user = $id_user";
+    $sql = "UPDATE species SET 
+                Commercial_Name = '$Commercial_Name', 
+                Scientific_Name = '$Scientific_Name' 
+            WHERE Id_Specie = $id_specie";
 
     try {
         $conn = getConnection();

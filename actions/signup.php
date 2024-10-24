@@ -1,7 +1,7 @@
 <?php
 require '../utils/functions.php';
-$uploads_folder = "C:\\xampp\\ISW-613-MyTreesProyect\\uploads\\";
 
+$uploads_folder = "C:\\xampp\\ISW-613-MyTreesProyect\\uploads\\";
 
 if ($_POST && isset($_REQUEST['first_name'])) {
   // Sanitize input fields to avoid malicious input
@@ -28,7 +28,6 @@ if ($_POST && isset($_REQUEST['first_name'])) {
     $user['pic']   = "../img/default_profile.png";
 
   }
- 
 
  // Required fields to validate
  $required_fields = ['first_name', 'last_name1', 'email', 'username', 'password', 'province', 'country','district'];

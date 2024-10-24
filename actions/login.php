@@ -14,10 +14,10 @@ if ($_POST) {
         $_SESSION['Role_id']      = $user['role_id']; 
 
         if ($user['role_id'] == 1) {
-            header('Location: ../admin.php'); 
+            header('Location: ../administrator/admin.php'); 
             exit();
         } else if ($user['role_id'] == 2) {
-            header('Location: ../friend.php'); 
+            header('Location: ../friend/friend.php'); 
             exit();
         }
         

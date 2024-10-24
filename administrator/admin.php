@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('utils/functions.php');
+require('../utils/functions.php');
 
 // Verificar si el usuario ha iniciado sesión y si tiene el rol de administrador (role_id = 1)
 if (!isset($_SESSION['Username']) || $_SESSION['Role_id'] != 1) {
@@ -9,7 +9,7 @@ if (!isset($_SESSION['Username']) || $_SESSION['Role_id'] != 1) {
     exit(); // Termina la ejecución del script
 }
 
-include 'inc/header_admin.php';
+include '../inc/header_admin.php';
 
 // Obtener los datos necesarios para las estadísticas
 $genders = getFriends(); 
@@ -139,4 +139,4 @@ const treesComparisonChart = new Chart(ctxComparison, {
 </style>
 <link rel="stylesheet" href="/css/graphics.css"> 
 
-<?php include 'inc/footer.php'; ?>
+<?php include '../inc/footer.php'; ?>

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<form method="post" action="actions/signup.php">
+<form method="post" action="../actions/signup.php">
 <div class="container mt-5">
     <div class="card" style="max-width: 600px; margin: auto;">
         <div class="card-body text-center">
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="password" class="form-control" name="password" placeholder="" value="">
                 </div>
                 <div class="form-group mt-4 d-flex justify-content-between">
-                    <a href="<?php echo ($userRole === 'admin') ? '../admin.php' : '../friend.php'; ?>" class="btn btn-secondary">Cancel</a>
+                    <a href="<?php echo ($userRole === 'admin') ? '../administrator/admin.php' : '../friend/friend.php'; ?>" class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-success ms-2">Update</button>
                 </div>
             </form>

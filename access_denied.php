@@ -42,7 +42,7 @@
     <div style="text-align: center;">
         <h1>Access Denied</h1> 
         <p>Sorry, you do not have permission to access this page.</p> 
-        <a href="friend.php">Return to the main page</a> 
+        <a href="friend/friend.php">Return to the main page</a> 
     </div>
 </body>
 </html>

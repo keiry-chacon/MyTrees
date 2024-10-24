@@ -1,5 +1,5 @@
 <?php
-  include('utils/admin_functions.php');
+  include('../utils/administrator/admin_functions.php');
   $species = getSpecies();
   $error_msg = '';
   if(isset($_GET['error'])) {
@@ -8,16 +8,16 @@
 ?>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link rel="stylesheet" href="css/styles_manage_specie.css"> 
+<link rel="stylesheet" href="../css/styles_manage_specie.css"> 
 <script src="https://kit.fontawesome.com/12d578a4cd.js" crossorigin="anonymous"></script>
 
-<?php require('inc/header_admin.php')?>
+<?php require('../inc/header_admin.php')?>
 <div class="container mt-5">
     <div class="jumbotron text-center">
       <h1 class="display-4">Manage Species</h1>
       <p class="lead">Here is a list of all registered species.</p>
       <hr class="my-4">
-      <a href="admin.php" class="btn btn-primary">Go to Home</a>
+      <a href="../administrator/admin.php" class="btn btn-primary">Go to Home</a>
       <a href="register_specie.php" class="btn btn-primary">Add Specie</a>
     </div>
 
@@ -39,11 +39,11 @@
                         <td><?= $specie['Commercial_Name'] ?></td>
                         <td><?= $specie['Scientific_Name'] ?></td>
                         <td class="text-center">
-                            <a href="<?php echo BASE_URL; ?>actions/update_specie.php?id=<?= $specie['Id_Specie'] ?>" class="btn btn-edit" title="Edit">
+                            <a href="<?php echo BASE_URL; ?>administrator/update_specie.php?id=<?= $specie['Id_Specie'] ?>" class="btn btn-edit" title="Edit">
                                 <i class="fa-solid fa-pen-to-square fa-lg"></i>
                             </a>
-                            <form action="<?php echo BASE_URL; ?>actions/delete_specie.php" method="POST" style="display:inline;" title="Delete">
-                                <input type="hidden" name="id_specie" value="<?= $specie['Id_Specie'] ?>">
+                            <form action="<?php echo BASE_URL; ?>actions/administrator/delete_specie.php" method="POST" style="display:inline;" title="Delete">
+                                <input type="hidden" name="Id_Specie" value="<?= $specie['Id_Specie'] ?>">
                                 <input type="hidden" name="new_state" value="2"> 
                                 <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this specie?');">
                                     <i class="fa-solid fa-trash fa-lg"></i>
