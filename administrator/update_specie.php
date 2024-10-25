@@ -1,5 +1,5 @@
 <?php
-    require_once('../utils/administrator/admin_functions.php');
+require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
 
     $specie = null; // Inicializamos $specie para evitar el error
 
@@ -28,7 +28,6 @@
         <p class="lead">This is the update process</p>
         <hr class="my-4">
     </div>
-
     <form method="post" action="../actions/administrator/update_specie.php">
         <?php if ($error_msg): ?>
             <div class="alert alert-danger" role="alert">

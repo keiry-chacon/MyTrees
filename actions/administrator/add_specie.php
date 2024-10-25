@@ -1,5 +1,5 @@
 <?php
-include '../utils/administrator/admin_functions.php';
+include('../../utils/administrator/admin_functions.php');
 
 if ($_POST && isset($_REQUEST['commercial_name'])) {
   // Sanitize input fields to avoid malicious input
@@ -11,19 +11,19 @@ if ($_POST && isset($_REQUEST['commercial_name'])) {
 
   foreach ($required_fields as $field) {
     if (empty($specie[$field])) {
-      header("Location: ../administrator/register_specie.php?error=" . urlencode("All fields are required."));
+      header("Location: ../../administrator/register_specie.php?error=" . urlencode("All fields are required."));
       exit;
     }
   }
 
   if (specieExists($specie['commercial_name'], $specie['scientific_name'])) {
-    header("Location: ../administrator/register_specie.php?error=" . urlencode("Specie already registered"));
+    header("Location: ../../administrator/register_specie.php?error=" . urlencode("Specie already registered"));
     exit; 
   }
 
   if (saveSpecie($specie)) {
-    header( "Location: ../administrator/manage_species.php",);
+    header( "Location: ../../administrator/manage_species.php",);
   } else {
-    header("Location: ../administrator/register_specie.php?error=" . urlencode("Invalid specie data"));
+    header("Location: ../../administrator/register_specie.php?error=" . urlencode("Invalid specie data"));
   }
 }

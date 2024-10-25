@@ -479,6 +479,8 @@ function authenticate($login, $password): bool|array|null {
             'username'     => $user['Username'],
             'profile_pic'  => $user['Profile_Pic'],
             'role_id'      => $user['Role_Id'],
+            'id_user'      => $user['Id_User'],
+
         ];     
     }
 

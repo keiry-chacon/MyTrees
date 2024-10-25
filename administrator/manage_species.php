@@ -39,10 +39,10 @@
                         <td><?= $specie['Commercial_Name'] ?></td>
                         <td><?= $specie['Scientific_Name'] ?></td>
                         <td class="text-center">
-                            <a href="<?php echo BASE_URL; ?>administrator/update_specie.php?id=<?= $specie['Id_Specie'] ?>" class="btn btn-edit" title="Edit">
-                                <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                        <a href="update_specie.php?id=<?= $specie['Id_Specie'] ?>" class="btn btn-edit" title="Edit">
+                        <i class="fa-solid fa-pen-to-square fa-lg"></i>
                             </a>
-                            <form action="<?php echo BASE_URL; ?>actions/administrator/delete_specie.php" method="POST" style="display:inline;" title="Delete">
+                            <form action="<?php echo BASE_URL; ?>../administrator/delete_specie.php" method="POST" style="display:inline;" title="Delete">
                                 <input type="hidden" name="Id_Specie" value="<?= $specie['Id_Specie'] ?>">
                                 <input type="hidden" name="new_state" value="2"> 
                                 <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this specie?');">

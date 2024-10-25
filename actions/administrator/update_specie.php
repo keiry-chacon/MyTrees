@@ -1,5 +1,5 @@
 <?php
-require('../utils/administrator/admin_functions.php');
+include('../../utils/administrator/admin_functions.php');
 
 if ($_POST && isset($_REQUEST['commercial_name'])) {
   // Sanitize input fields to avoid malicious input
@@ -18,8 +18,8 @@ if ($_POST && isset($_REQUEST['commercial_name'])) {
   }
 
   if (updateSpecie($specie, $id_specie)) {
-    header( "Location: ../administrator/manage_species.php",);
+    header( "Location: ../../administrator/manage_species.php",);
   } else {
-    header("Location: ../administrator/update_specie.php?error=" . urlencode("Invalid specie data"));
+    header("Location: ../../administrator/update_specie.php?error=" . urlencode("Invalid specie data"));
   }
 }
