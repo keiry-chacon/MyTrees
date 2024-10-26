@@ -1,159 +1,92 @@
 <?php
+session_start(); // Asegúrate de iniciar la sesión al comienzo
 include '../inc/header_friend.php'; 
-require('../utils/friend/friend_functions.php');
+require_once('../utils/friend/friend_functions.php');
 
 $id = $_GET['id']; 
 $tree = getTreeDetailsById($id); 
+
+// Call addToCart when a button is pressed
+if (isset($_POST['add_to_cart'])) {
+    $treeId = $_POST['tree_id'];
+    $response = addToCart($_SESSION['Id_User'], $treeId);
+    
+    // Retornar la respuesta JSON
+    echo $response;
+    exit;  
+}
 ?>
 
 <!-- Asegúrate de incluir Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
+    /* Tu CSS aquí */
     body {
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        color: #333;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
     }
-
     .product-detail-container {
         display: flex;
         justify-content: center;
-        align-items: flex-start;
-        gap: 20px;
         padding: 20px;
     }
-
     .image-container img {
-        width: 300px;
-        height: auto;
+        max-width: 300px;
         border-radius: 8px;
     }
-
     .product-info {
-        max-width: 400px;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-left: 20px;
     }
-
-    .product-info h1 {
-        font-size: 1.8rem;
-        margin-bottom: 10px;
-    }
-
     .price {
-        font-size: 1.5rem;
-        color: blue;
-        margin-bottom: 10px;
-    }
-
-    .price del {
-        color: #888;
-        font-size: 1.2rem;
-        margin-right: 10px;
-    }
-
-    .discount {
-        background-color: #ff9800;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    .rating {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .rating-stars {
-        color: #ffcc00;
-        margin-right: 5px;
-    }
-
-    .color, .material {
+        font-size: 24px;
+        color: #4CAF50;
         margin: 10px 0;
     }
-
-    .select-model {
-        margin: 15px 0;
-    }
-
-    .select-model select {
-        width: 100%;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-
     .buy-container {
-        margin-top: 20px;
         display: flex;
-        gap: 10px; /* Espacio entre los botones */
+        align-items: center;
     }
-
-    .buy-container button {
-        flex: 1; /* Los botones ocuparán espacio igual */
-        padding: 15px;
-        background-color: #d32f2f;
+    .add-to-cart {
+        background-color: #4CAF50;
         color: white;
         border: none;
-        border-radius: 5px;
-        font-size: 1.1rem;
+        padding: 10px 15px;
         cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
+        margin-right: 10px;
     }
-
-    .buy-container button:hover {
-        background-color: #b71c1c;
-    }
-
-    .buy-container .add-to-cart {
-        background-color: #ffa000; /* Color diferente para agregar al carrito */
-    }
-
-    .buy-container .add-to-cart:hover {
-        background-color: #ff8f00; /* Hover para agregar al carrito */
-    }
-
-    .buy-container i {
-        margin-right: 8px; /* Espacio entre el ícono y el texto */
-    }
-
-    @media (max-width: 768px) {
-        .card {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .card img {
-            max-width: 80%;
-            margin-bottom: 20px;
-        }
-
-        .buy-button {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.2em;
-        }
+    .buy-button {
+        background-color: #FF5733;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 16px;
     }
     .cart-panel {
-    position: absolute;
-    right: 10px;
-    top: 60px; /* Ajusta según sea necesario */
-    width: 300px;
-    background: white;
-    border: 1px solid #ddd;
-    padding: 15px;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
+        position: fixed;
+        right: 20px;
+        top: 20px;
+        width: 300px;
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none; /* Oculto por defecto */
+        padding: 10px;
+    }
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+    }
 </style>
+
 <body>
 
 <div class="product-detail-container">
@@ -169,73 +102,108 @@ $tree = getTreeDetailsById($id);
             ₡<?php echo number_format($tree['Price'], 0, ',', '.'); ?>
         </div>
 
-        <!-- Información del dueño -->
-        <div class="owner-info">
-            <p><strong>Owner:</strong> <?php echo $tree['First_Name'] . " " . $tree['Last_Name1'] . " " . $tree['Last_Name2']; ?></p>
-            <p><strong>Phone:</strong> <?php echo $tree['Phone']?></p>
-        </div>
-
         <div class="buy-container">
-        <button class="add-to-cart" data-name="Producto 1" data-price="29.99">
-        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
-    </button>            <button class="buy-button" onclick="redirectToPurchaseForm(<?php echo $tree['Id_Tree']; ?>)">
-    <i class="fas fa-money-bill-wave"></i> Comprar
-</button>
+            <form method="post" id="cart-form">
+                <input type="hidden" name="tree_id" value="<?php echo $tree['Id_Tree']; ?>">
+                <button type="submit" name="add_to_cart" class="add-to-cart">
+                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                </button>
+            </form>
+            <button class="buy-button" onclick="redirectToPurchaseForm(<?php echo $tree['Id_Tree']; ?>)">
+                <i class="fas fa-money-bill-wave"></i> Buy
+            </button>
         </div>
     </div>
 </div>
 
+<!-- Cart Panel -->
+<div id="cart-panel" class="cart-panel">
+    <h2>Shopping Cart</h2>
+    <ul id="cart-items">
+        <?php if (isset($_SESSION['cart'])): ?>
+            <?php foreach ($_SESSION['cart'] as $cartItem): ?>
+                <li class="cart-item">
+                    <span><?php echo $cartItem['name']; ?> (<?php echo $cartItem['quantity']; ?>)</span>
+                    <button onclick="removeFromCart(<?php echo $cartItem['id']; ?>)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <li>No items in cart.</li>
+        <?php endif; ?>
+    </ul>
+</div>
+
 </body>
 <script>
-function redirectToPurchaseForm(treeId) {
-    window.location.href = `purchase_form.php?tree_id=${treeId}`;
-}
-    document.getElementById('profileMenuToggle').addEventListener('click', function(event) {
-        event.preventDefault();
-        var submenu = document.getElementById('profileSubmenu');
-        submenu.style.display = submenu.style.display === 'none' || submenu.style.display === '' ? 'block' : 'none';
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        var cartForm = document.getElementById('cart-form');
+        var addToCartButton = cartForm.querySelector('.add-to-cart');
 
-    window.addEventListener('click', function(event) {
-        var submenu = document.getElementById('profileSubmenu');
-        if (!event.target.closest('#profileMenuToggle') && !event.target.closest('#profileSubmenu')) {
-            submenu.style.display = 'none';
-        }
-    });
-
-    // Manejar el clic en "Agregar al carrito"
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            const productName = this.getAttribute('data-name');
-            const productPrice = this.getAttribute('data-price');
-            addToCart({ name: productName, price: productPrice });
-            toggleCartPanel(event); // Abrir el panel del carrito
+        addToCartButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevenir el envío del formulario
+            
+            // Usar AJAX para agregar al carrito
+            var formData = new FormData(cartForm);
+            fetch('', { // Enviar al mismo archivo
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Si el árbol fue agregado, actualiza la visualización del carrito
+                    displayCartItems(data.cartItems); // Actualiza los elementos del carrito
+                    alert(data.message); // Muestra mensaje de éxito
+                } else {
+                    // Si el árbol ya existe, muestra un mensaje
+                    alert(data.message); // Muestra mensaje de que ya existe
+                }
+                toggleCartPanel(); // Mostrar el carrito
+            })
+            .catch(error => console.error('Error:', error));
         });
     });
 
-    function toggleCartPanel(event) {
-        event.preventDefault();
+    // Función para mostrar los elementos del carrito
+    function displayCartItems(cartItems) {
+        var cartItemsContainer = document.getElementById('cart-items');
+        cartItemsContainer.innerHTML = ''; // Limpiar contenido anterior
+
+        // Si necesitas un nuevo método para obtener cartItems
+        // Este es solo un ejemplo; ajusta según la estructura real de tus datos
+        cartItems.forEach(item => {
+            cartItemsContainer.innerHTML += `
+                <li class="cart-item">
+                    <span>${item.name}</span>
+                    <button onclick="removeFromCart(${item.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </li>`;
+        });
+
+        // Si el carrito está vacío, mostrar mensaje
+        if (cartItems.length === 0) {
+            cartItemsContainer.innerHTML = '<li>No items in cart.</li>';
+        }
+    }
+
+    function toggleCartPanel() {
         var cartPanel = document.getElementById('cart-panel');
         cartPanel.style.display = cartPanel.style.display === 'none' || cartPanel.style.display === '' ? 'block' : 'none';
     }
 
-    function updateCartCount(count) {
-        document.getElementById('cart-count').textContent = count;
+    // Función para eliminar el artículo del carrito (implementa esta lógica en PHP)
+    function removeFromCart(treeId) {
+        // Lógica para eliminar el artículo del carrito
+        alert('This function needs to be implemented to remove item with ID: ' + treeId);
     }
 
-    function addToCart(product) {
-        var cartItems = document.getElementById('cart-items');
-        var listItem = document.createElement('li');
-        listItem.textContent = `${product.name} - $${product.price}`;
-        cartItems.appendChild(listItem);
-
-        // Actualiza el contador
-        updateCartCount(cartItems.children.length);
+    // Función para redirigir al formulario de compra
+    function redirectToPurchaseForm(treeId) {
+        // Lógica para redirigir al formulario de compra
+        alert('Redirecting to purchase form for Tree ID: ' + treeId);
     }
-
-    // Llama a esta función para agregar un producto como ejemplo
-    // addToCart({ name: "Producto 1", price: 29.99 });
-
 </script>
 

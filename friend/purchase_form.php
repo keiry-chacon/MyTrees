@@ -1,7 +1,7 @@
 <?php
 // purchase_form.php
 include '../inc/header_friend.php'; 
-require('../utils/friend/friend_functions.php');
+require_once('../utils/friend/friend_functions.php');
 
 $treeId = $_GET['tree_id'];
 

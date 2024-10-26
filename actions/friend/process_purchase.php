@@ -10,13 +10,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $shippingLocation = $_POST['shipping_location'];
     $paymentMethod = $_POST['payment_method'];
 
-    // Función para actualizar el estado del árbol y asignar el nuevo dueño
-    $purchaseSuccess = purchaseTree($treeId, $userId);
+    // Función para actualizar el estado del árbol
+    $purchaseSuccess = purchaseTree($treeId);
 
     if ($purchaseSuccess) {
-        echo json_encode(['status' => 'success', 'message' => 'Thank you for your purchase!']);
-        header("Location: ../../friend/friend.php");
-        exit();
+        $saveSuccess = savePurchase($treeId, $userId, $shippingLocation, $paymentMethod);
+
+        if ($saveSuccess) {
+            $_SESSION['purchase_message'] = 'Thank you for your purchase!';
+            header("Location: ../../friend/friend.php");
+            exit();
+        } else {
+            echo "Error saving your purchase. Please try again.";
+        }
     } else {
         // Manejar errores en la compra (puedes mostrar un mensaje de error en la misma página)
         echo "Error processing your purchase. Please try again.";

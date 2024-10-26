@@ -1,36 +1,33 @@
 <?php 
 include '../inc/header_friend.php'; 
 require_once('../utils/friend/friend_functions.php');
-if (isset($_SESSION['purchase_message'])) {
-    echo "<div class='success-message'>" . $_SESSION['purchase_message'] . "</div>";
-    
-    // Eliminar el mensaje de la sesión después de mostrarlo
-    unset($_SESSION['purchase_message']);
-}
-$trees = getAllAvailableTrees();
 
+$trees = getFriendsTrees($_SESSION['Id_User']);
 
+if (empty($trees)) {
+    echo "No trees found for this user.";
 
-
+} 
 ?>
-
-<div class="product-container">
-    <div class="tree-cards">
+<div class="product-detail-container">
+<div class="tree-cards">
         <?php foreach ($trees as $tree):
             $photoTree = "../" . $tree['Photo_Path'];
-            $treeDetailUrl = "tree_detail.php?id=" . $tree['Id_Tree']; // URL de detalle del árbol
+            $treeDetailUrl = "tree_detail_friend.php?id=" . $tree['Id_Tree']; // URL de detalle del árbol
             ?>
             <a href="<?php echo $treeDetailUrl; ?>" class="card">
                 <img src="<?php echo $photoTree; ?>" alt="Imagen del Árbol">
                 <div class="card-content">
                     <h3><?php echo $tree['Commercial_Name']; ?></h3>
-                    <p>Ubicación: <?php echo $tree['Location']; ?></p>
-                    <p>Precio: ₡<?php echo number_format($tree['Price'], 0, ',', '.'); ?></p>
+                    <p>Location: <?php echo $tree['Location']; ?></p>
+                    <p>Purchase date: <?php echo $tree['Purchase_Date']; ?></p>
                 </div>
+                
             </a>
         <?php endforeach; ?>
     </div>
 </div>
+
 
 <style>
     .success-message {
