@@ -24,7 +24,7 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
 <?php require('../inc/header_admin.php')?>
 <div class="container-fluid">
     <div class="jumbotron">
-        <h1 class="display-4">Update User</h1>
+        <h1 class="display-4">Update Specie</h1>
         <p class="lead">This is the update process</p>
         <hr class="my-4">
     </div>

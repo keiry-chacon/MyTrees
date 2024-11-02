@@ -1,7 +1,7 @@
 <?php
 require '../utils/functions.php';
 
-$uploads_folder = "C:\\xampp\\ISW-613-MyTreesProyect\\uploads\\";
+$uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads/";
 
 if ($_POST && isset($_REQUEST['first_name'])) {
   // Sanitize input fields to avoid malicious input
@@ -19,37 +19,34 @@ if ($_POST && isset($_REQUEST['first_name'])) {
 
   // upload image
   $file_tmp = $_FILES["profilePic"]["tmp_name"];
-  $target_dir = "uploads/";
-  $target_file = $target_dir . basename($_FILES["profilePic"]["name"]);
-  if(move_uploaded_file($file_tmp,$target_file)){
-    $user['pic']   = $target_file;
+  $file_name = basename($_FILES["profilePic"]["name"]);
+  $target_file = $uploads_folder . $file_name;
 
-  }else{
-    $user['pic']   = "../img/default_profile.png";
+  move_uploaded_file($file_tmp,$target_file);
 
-  }
+  $user['pic'] = $file_name;
 
  // Required fields to validate
  $required_fields = ['first_name', 'last_name1', 'email', 'username', 'password', 'province', 'country','district'];
 
   foreach ($required_fields as $field) {
     if (empty($user[$field])) {
-      header("Location: ../index.php?error=" . urlencode("All fields are required."));
+      header("Location: ../signup.php?error=" . urlencode("All fields are required."));
       exit;
     }
   }
 
   if (emailExists($user['email'])) {
-    header("Location: ../index.php?error=" . urlencode("Email already registered"));
+    header("Location: ../signup.php?error=" . urlencode("Email already registered"));
     exit; 
   }
   if (emailExists($user['username'])) {
-    header("Location: ../index.php?error=" . urlencode("User already registered"));
+    header("Location: ../signup.php?error=" . urlencode("User already registered"));
     exit; 
   }
   if (saveUser($user)) {
     header( "Location: ../index.php",);
   } else {
-    header("Location: ../index.php?error=" . urlencode("Invalid user data"));
+    header("Location: ../signup.php?error=" . urlencode("Invalid user data"));
   }
 }

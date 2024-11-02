@@ -147,7 +147,7 @@ function getUsers(): array {
         if ($result) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $users[] = [
-                    'id_user'       => $row['Id_Users'],       
+                    'id_user'       => $row['Id_User'],       
                     'first_name'    => $row['First_Name'],     
                     'last_name1'    => $row['Last_Name1'],     
                     'last_name2'    => $row['Last_Name2'],     

@@ -19,7 +19,7 @@
       <hr class="my-4">
     </div>
 
-    <form method="post" action="actions/signup.php">
+    <form method="post" action="actions/signup.php" enctype="multipart/form-data">
 
         <?php if ($error_msg): ?>
             <div class="alert alert-danger" role="alert">
@@ -28,10 +28,9 @@
         <?php endif; ?>
 
       <div class="container">
-        <form action="index.php" method="POST"  enctype="multipart/form-data">
         <div class="form-group">
         <label for="profilePic" style="display: none;">Profile Picture</label>
-        <input type="file" class="form-control" name="profilePic" id="profilePic" accept="image/png, image/jpeg" style="display: none;" required>
+        <input type="file" class="form-control" name="profilePic" id="profilePic" accept="image/png, image/jpeg" style="display: none;">
     </div>
 
     <div style="position: relative; display: inline-block;">
@@ -160,6 +159,3 @@
   });
 </script>
     <?php require('inc/footer.php'); ?>
-    
- 
-

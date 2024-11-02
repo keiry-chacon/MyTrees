@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2024 at 09:26 AM
+-- Generation Time: Nov 02, 2024 at 07:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `mytrees`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `Id_Cart` int(11) NOT NULL,
+  `User_Id` int(11) NOT NULL,
+  `Tree_Id` int(11) NOT NULL,
+  `Quantity` int(11) DEFAULT 1,
+  `Status` enum('active','completed','abandoned') DEFAULT 'active',
+  `Created_At` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -279,6 +294,31 @@ INSERT INTO `province` (`Id_Province`, `Province_Name`, `Country_Id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `purchase`
+--
+
+CREATE TABLE `purchase` (
+  `Id_Purchase` int(11) NOT NULL,
+  `Tree_Id` int(11) NOT NULL,
+  `User_Id` int(11) NOT NULL,
+  `Shipping_Location` varchar(255) DEFAULT NULL,
+  `Payment_Method` varchar(50) DEFAULT NULL,
+  `Purchase_Date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `StatusP` int(11) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `purchase`
+--
+
+INSERT INTO `purchase` (`Id_Purchase`, `Tree_Id`, `User_Id`, `Shipping_Location`, `Payment_Method`, `Purchase_Date`, `StatusP`) VALUES
+(1, 2, 2, 'San carlos', 'card', '2024-10-25 23:08:26', 1),
+(2, 1, 2, 'cuba', 'cash', '2024-10-25 23:11:43', 1),
+(3, 3, 2, 'Alajuela', 'cash', '2024-10-25 23:58:20', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `species`
 --
 
@@ -294,7 +334,7 @@ CREATE TABLE `species` (
 --
 
 INSERT INTO `species` (`Id_Specie`, `Commercial_Name`, `Scientific_Name`, `StatusS`) VALUES
-(1, 'Guanacaste', 'Enterolobium cyclocarpum', 1),
+(1, 'Guanacastes', 'Enterolobium cyclocarpum', 1),
 (2, 'Cedar', 'Cedrela odorata', 1),
 (3, 'Pochote', 'Pochota guanacastensis', 1),
 (4, 'Roble', 'Tabebuia rosea', 1),
@@ -316,21 +356,22 @@ CREATE TABLE `trees` (
   `Id_Tree` int(11) NOT NULL,
   `Specie_Id` int(11) DEFAULT NULL,
   `Location` varchar(255) NOT NULL,
-  `StatusT` tinyint(1) NOT NULL DEFAULT 1,
+  `Size` int(11) NOT NULL,
+  `StatusT` int(1) NOT NULL DEFAULT 1,
   `Price` decimal(10,2) NOT NULL,
-  `Photo_Path` varchar(255) DEFAULT NULL,
-  `User_Id` int(11) DEFAULT NULL
+  `Photo_Path` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `trees`
 --
 
-INSERT INTO `trees` (`Id_Tree`, `Specie_Id`, `Location`, `StatusT`, `Price`, `Photo_Path`, `User_Id`) VALUES
-(1, 1, 'California, USA', 1, 150.00, 'photos/oak_tree.jpg', 3),
-(2, 2, 'Oregon, USA', 1, 120.00, 'photos/pine_tree.jpg', 2),
-(3, 3, 'Vermont, USA', 0, 200.00, 'photos/maple_tree.jpg', 3),
-(4, 4, 'Maine, USA', 0, 180.00, 'photos/birch_tree.jpg', 2);
+INSERT INTO `trees` (`Id_Tree`, `Specie_Id`, `Location`, `Size`, `StatusT`, `Price`, `Photo_Path`) VALUES
+(1, 1, 'San Carlos', 50, 1, 150.00, 'img\\default_tree.jpg'),
+(2, 2, 'San Carlos', 73, 1, 120.00, 'img\\default_tree.jpg'),
+(3, 3, 'San Carlos', 97, 1, 200.00, 'img\\default_tree.jpg'),
+(4, 4, 'San Carlos', 43, 1, 180.00, 'img\\default_tree.jpg'),
+(5, 1, 'San Carlos', 21, 1, 250.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -360,14 +401,22 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`Id_User`, `First_Name`, `Last_Name1`, `Last_Name2`, `Username`, `Password`, `Email`, `Phone`, `Gender`, `Profile_Pic`, `District_Id`, `Created_At`, `Role_Id`, `StatusU`) VALUES
-(0, 'Joselyn', 'Ojeda', 'Vargas', 'joselyn', '$2y$10$mqvcIq4vm94tv.VRlfqDGOeBn2EQda1YFOLYcdVzOy.Im2/3d8TYa', 'joselyn@gmail.com', '71591802', 'F', 'img/default_profile.png', 21, '2024-10-21 12:39:27', 2, 1),
-(1, 'Admin', 'User', 'Admi', 'admin', '$2y$10$FKYX2EfTdIe.YdoIgJNV3.Yl9pL0jTHQvXW9d.Yj8pSOiJ76lbKDm', 'admin@gmail.com', '1234567890', 'M', 'img/default_profile.png', 1, '2024-10-19 23:24:03', 1, 1),
+(1, 'Admin', 'Istrator', 'User', 'admin', '$2y$10$GZGrPZ07xpC/3zalFsSWueB3qXhaz63SOrlMwHisGxqd6OfkIz882', 'admin@gmail.com', '12345678', 'M', 'img/default_profile.png', 21, '2024-11-02 05:56:57', 1, 1),
 (2, 'Keiry', 'Chacón', 'Sibaja', 'kei', '$2y$10$FKYX2EfTdIe.YdoIgJNV3.Yl9pL0jTHQvXW9d.Yj8pSOiJ76lbKDm', 'keirychas@gmail.com', '86295417', 'F', 'img/default_profile.png', 21, '2024-10-20 09:18:03', 2, 1),
-(3, 'Gredy', 'Corrales', 'Mendoza', 'gredy', '$2y$10$FKYX2EfTdIe.YdoIgJNV3.Yl9pL0jTHQvXW9d.Yj8pSOiJ76lbKDm', 'gredy@gmail.com', '71591802', 'M', 'img/default_profile.png', 21, '2024-10-21 07:23:30', 2, 1);
+(3, 'Gredy', 'Corrales', 'Mendoza', 'gredy', '$2y$10$OqM4/zX57QrgE7PvL3GUouxKN8yjh0bC5Q1rzlyLTETks6eaKuf/S', 'gredy@gmail.com', '71591802', 'M', 'Logo Blanco.png', 21, '2024-11-02 05:58:29', 2, 1),
+(4, 'Joselyn', 'Ojeda', 'Vargas', 'joselyn', '$2y$10$0zHr4wAUQ8K0UkFE8USUmuzuMCyKc8BcPF8PLa3xY42zTZdAaeucW', 'joselyn@gmail.com', '71591802', 'F', 'Logo Blanco.png', 21, '2024-11-02 06:04:02', 2, 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`Id_Cart`),
+  ADD KEY `fk_user` (`User_Id`),
+  ADD KEY `fk_tree` (`Tree_Id`);
 
 --
 -- Indexes for table `country`
@@ -390,6 +439,14 @@ ALTER TABLE `province`
   ADD KEY `Country_Id` (`Country_Id`);
 
 --
+-- Indexes for table `purchase`
+--
+ALTER TABLE `purchase`
+  ADD PRIMARY KEY (`Id_Purchase`),
+  ADD KEY `Tree_Id` (`Tree_Id`),
+  ADD KEY `User_Id` (`User_Id`);
+
+--
 -- Indexes for table `species`
 --
 ALTER TABLE `species`
@@ -400,7 +457,6 @@ ALTER TABLE `species`
 --
 ALTER TABLE `trees`
   ADD PRIMARY KEY (`Id_Tree`),
-  ADD KEY `Id_User` (`User_Id`),
   ADD KEY `fk_Specie_Id` (`Specie_Id`);
 
 --
@@ -417,6 +473,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `Id_Cart` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `country`
@@ -437,6 +499,12 @@ ALTER TABLE `province`
   MODIFY `Id_Province` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT for table `purchase`
+--
+ALTER TABLE `purchase`
+  MODIFY `Id_Purchase` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `species`
 --
 ALTER TABLE `species`
@@ -446,11 +514,25 @@ ALTER TABLE `species`
 -- AUTO_INCREMENT for table `trees`
 --
 ALTER TABLE `trees`
-  MODIFY `Id_Tree` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id_Tree` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `Id_User` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `User_Id` FOREIGN KEY (`Id_Cart`) REFERENCES `users` (`Id_User`),
+  ADD CONSTRAINT `fk_tree` FOREIGN KEY (`Tree_Id`) REFERENCES `trees` (`Id_Tree`),
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`User_Id`) REFERENCES `users` (`Id_User`);
 
 --
 -- Constraints for table `district`
@@ -465,11 +547,17 @@ ALTER TABLE `province`
   ADD CONSTRAINT `province_ibfk_1` FOREIGN KEY (`Country_Id`) REFERENCES `country` (`Id_Country`);
 
 --
+-- Constraints for table `purchase`
+--
+ALTER TABLE `purchase`
+  ADD CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`Tree_Id`) REFERENCES `trees` (`Id_Tree`),
+  ADD CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`User_Id`) REFERENCES `users` (`Id_User`);
+
+--
 -- Constraints for table `trees`
 --
 ALTER TABLE `trees`
-  ADD CONSTRAINT `fk_Specie_Id` FOREIGN KEY (`Specie_Id`) REFERENCES `species` (`Id_Specie`),
-  ADD CONSTRAINT `trees_ibfk_1` FOREIGN KEY (`User_Id`) REFERENCES `users` (`Id_User`);
+  ADD CONSTRAINT `fk_Specie_Id` FOREIGN KEY (`Specie_Id`) REFERENCES `species` (`Id_Specie`);
 
 --
 -- Constraints for table `users`
