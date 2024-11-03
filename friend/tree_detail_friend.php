@@ -1,12 +1,16 @@
 <?php
+
+/*
+* You only see the tree information but you can't do anything
+*/
+
 include '../inc/header_friend.php'; 
 require_once('../utils/friend/friend_functions.php');
-$uploads_folder_t = "../uploads_tree/";
 
-$friendId = $_SESSION['Id_User'];
-$idTree = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-$trees = getFriendsTrees($friendId);
+$uploads_folder_t   = "../uploads_tree/";
+$friendId           = $_SESSION['Id_User'];
+$idTree             = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$trees              = getFriendsTrees($friendId);
 
 if (empty($trees)) {
     echo "No trees found for this user.";
@@ -47,6 +51,14 @@ if (empty($trees)) {
     }
 }
 ?>
+
+
+
+
+
+
+
+
 
 
 <!-- Asegúrate de incluir Font Awesome -->

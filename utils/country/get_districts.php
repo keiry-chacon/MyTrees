@@ -1,10 +1,15 @@
 <?php
+
+/*
+* Get Districts 
+*/
+
 include('../functions.php');
 
 if (isset($_POST['province_id'])) {
-    $province_id = intval($_POST['province_id']); 
 
-    $districts = getDistricts($province_id);
+    $province_id    = intval($_POST['province_id']); 
+    $districts      = getDistricts($province_id);
 
     if ($districts) {
         echo '<option value="">Select District</option>';

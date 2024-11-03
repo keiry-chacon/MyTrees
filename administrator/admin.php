@@ -1,4 +1,9 @@
 <?php
+
+/*
+* Admin Interface
+*/
+
 session_start();
 require('../utils/functions.php');
 

@@ -1,10 +1,15 @@
 <?php
+
+/*
+* Delete a tree within the table
+*/
+
 include('../../utils/administrator/admin_functions.php');
 
 if ($_POST && isset($_REQUEST['id_tree'])) {
-    $id_tree = (int)$_REQUEST['id_tree'];
 
-    $newState = isset($_REQUEST['new_state']) ? (int)$_REQUEST['new_state'] : 0; 
+    $id_tree    = (int)$_REQUEST['id_tree'];
+    $newState   = isset($_REQUEST['new_state']) ? (int)$_REQUEST['new_state'] : 0; 
 
     $existingTree = getTreeById($id_tree);
     if (empty($existingTree)) {

@@ -1,4 +1,10 @@
 <?php
+
+/*
+* Add a new tree to the table
+*/
+
+
 include('../../utils/administrator/admin_functions.php');
 
 $uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_tree/";
@@ -6,7 +12,6 @@ $uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_tree/";
 $error_msg = '';
 
 if ($_POST && isset($_POST['specie_id'])) {
-  // Sanitize input fields to avoid malicious input
   $tree['specie_id']    = trim($_POST['specie_id']); 
   $tree['location']     = trim($_POST['location']);
   $tree['size']         = trim($_POST['size']);
@@ -34,8 +39,8 @@ if ($_POST && isset($_POST['specie_id'])) {
     move_uploaded_file($file_tmp,$target_file);
     updateTreePic($tree_id, $file_name);
     header("Location: ../../administrator/manage_trees.php");
-
     }
+
   } else {
     header("Location: ../../administrator/register_tree.php?error=" . urlencode("Invalid tree data"));
   }

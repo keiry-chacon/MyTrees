@@ -1,4 +1,9 @@
 <?php
+
+/*
+* Form that adds a new tree
+*/
+
 include('../utils/administrator/admin_functions.php');
 $species = getSpecies();  
 $tree = [

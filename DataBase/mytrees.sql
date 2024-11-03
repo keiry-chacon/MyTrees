@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 03-11-2024 a las 01:30:54
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Host: 127.0.0.1
+-- Generation Time: Nov 04, 2024 at 12:38 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `mytrees`
+-- Database: `mytrees`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `cart`
+-- Table structure for table `cart`
 --
 
 CREATE TABLE `cart` (
@@ -38,7 +38,7 @@ CREATE TABLE `cart` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `cart`
+-- Dumping data for table `cart`
 --
 
 INSERT INTO `cart` (`Id_Cart`, `User_Id`, `Tree_Id`, `Quantity`, `Status`, `Created_At`, `Price`) VALUES
@@ -52,7 +52,7 @@ INSERT INTO `cart` (`Id_Cart`, `User_Id`, `Tree_Id`, `Quantity`, `Status`, `Crea
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `country`
+-- Table structure for table `country`
 --
 
 CREATE TABLE `country` (
@@ -61,7 +61,7 @@ CREATE TABLE `country` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `country`
+-- Dumping data for table `country`
 --
 
 INSERT INTO `country` (`Id_Country`, `Country_Name`) VALUES
@@ -70,7 +70,7 @@ INSERT INTO `country` (`Id_Country`, `Country_Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `district`
+-- Table structure for table `district`
 --
 
 CREATE TABLE `district` (
@@ -80,7 +80,7 @@ CREATE TABLE `district` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `district`
+-- Dumping data for table `district`
 --
 
 INSERT INTO `district` (`Id_District`, `District_Name`, `Province_Id`) VALUES
@@ -282,7 +282,7 @@ INSERT INTO `district` (`Id_District`, `District_Name`, `Province_Id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `province`
+-- Table structure for table `province`
 --
 
 CREATE TABLE `province` (
@@ -292,7 +292,7 @@ CREATE TABLE `province` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `province`
+-- Dumping data for table `province`
 --
 
 INSERT INTO `province` (`Id_Province`, `Province_Name`, `Country_Id`) VALUES
@@ -307,7 +307,7 @@ INSERT INTO `province` (`Id_Province`, `Province_Name`, `Country_Id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `purchase`
+-- Table structure for table `purchase`
 --
 
 CREATE TABLE `purchase` (
@@ -321,20 +321,20 @@ CREATE TABLE `purchase` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `purchase`
+-- Dumping data for table `purchase`
 --
 
 INSERT INTO `purchase` (`Id_Purchase`, `Tree_Id`, `User_Id`, `Shipping_Location`, `Payment_Method`, `Purchase_Date`, `StatusP`) VALUES
 (1, 2, 2, 'San carlos', 'card', '2024-10-25 23:08:26', 0),
 (2, 1, 2, 'cuba', 'cash', '2024-10-25 23:11:43', 0),
-(3, 3, 2, 'Alajuela', 'cash', '2024-10-25 23:58:20', 0),
+(3, 3, 2, 'Alajuela', 'cash', '2024-10-25 23:58:20', 1),
 (4, 3, 2, 'San carlos', 'cash', '2024-11-02 22:33:08', 1),
 (5, 2, 2, 'Alajuela', 'cash', '2024-11-03 00:28:47', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `species`
+-- Table structure for table `species`
 --
 
 CREATE TABLE `species` (
@@ -345,7 +345,7 @@ CREATE TABLE `species` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `species`
+-- Dumping data for table `species`
 --
 
 INSERT INTO `species` (`Id_Specie`, `Commercial_Name`, `Scientific_Name`, `StatusS`) VALUES
@@ -364,7 +364,7 @@ INSERT INTO `species` (`Id_Specie`, `Commercial_Name`, `Scientific_Name`, `Statu
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `trees`
+-- Table structure for table `trees`
 --
 
 CREATE TABLE `trees` (
@@ -378,12 +378,12 @@ CREATE TABLE `trees` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `trees`
+-- Dumping data for table `trees`
 --
 
 INSERT INTO `trees` (`Id_Tree`, `Specie_Id`, `Location`, `Size`, `StatusT`, `Price`, `Photo_Path`) VALUES
 (1, 1, 'San Carlos', 50, 1, 150.00, '1.png'),
-(2, 2, 'San Carlos', 73, 0, 120.00, '2.png'),
+(2, 2, 'San Carlos', 739, 0, 120.00, '2.png'),
 (3, 3, 'San Carlos', 97, 0, 200.00, 'default_tree.jpg'),
 (4, 4, 'San Carlos', 43, 1, 180.00, '4.png'),
 (5, 1, 'San Carlos', 21, 0, 250.00, NULL),
@@ -395,7 +395,29 @@ INSERT INTO `trees` (`Id_Tree`, `Specie_Id`, `Location`, `Size`, `StatusT`, `Pri
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `users`
+-- Table structure for table `tree_update`
+--
+
+CREATE TABLE `tree_update` (
+  `Id_TreeUpdate` int(11) NOT NULL,
+  `Tree_Id` int(11) NOT NULL,
+  `Size` int(11) NOT NULL,
+  `StatusT` int(11) NOT NULL,
+  `UpdateDate` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tree_update`
+--
+
+INSERT INTO `tree_update` (`Id_TreeUpdate`, `Tree_Id`, `Size`, `StatusT`, `UpdateDate`) VALUES
+(1, 2, 739, 0, '2024-11-04 02:24:13'),
+(2, 2, 739, 0, '2024-11-04 03:23:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -416,7 +438,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`Id_User`, `First_Name`, `Last_Name1`, `Last_Name2`, `Username`, `Password`, `Email`, `Phone`, `Gender`, `Profile_Pic`, `District_Id`, `Created_At`, `Role_Id`, `StatusU`) VALUES
@@ -428,11 +450,11 @@ INSERT INTO `users` (`Id_User`, `First_Name`, `Last_Name1`, `Last_Name2`, `Usern
 (6, 'Yuridia', 'Morales', 'Gomez', 'jhasdjh', '$2y$10$tibgnCdJdOojQIPYGyD0lucj0F5Dw.0KTV8MdQ2YgWWEWkssWI4M.', 'ariana@gmail.com', '54354325', 'F', 'default_profile.png', 97, '2024-11-02 22:17:40', 2, 1);
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `cart`
+-- Indexes for table `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`Id_Cart`),
@@ -440,27 +462,27 @@ ALTER TABLE `cart`
   ADD KEY `fk_tree` (`Tree_Id`);
 
 --
--- Indices de la tabla `country`
+-- Indexes for table `country`
 --
 ALTER TABLE `country`
   ADD PRIMARY KEY (`Id_Country`);
 
 --
--- Indices de la tabla `district`
+-- Indexes for table `district`
 --
 ALTER TABLE `district`
   ADD PRIMARY KEY (`Id_District`),
   ADD KEY `Province_Id` (`Province_Id`);
 
 --
--- Indices de la tabla `province`
+-- Indexes for table `province`
 --
 ALTER TABLE `province`
   ADD PRIMARY KEY (`Id_Province`),
   ADD KEY `Country_Id` (`Country_Id`);
 
 --
--- Indices de la tabla `purchase`
+-- Indexes for table `purchase`
 --
 ALTER TABLE `purchase`
   ADD PRIMARY KEY (`Id_Purchase`),
@@ -468,20 +490,27 @@ ALTER TABLE `purchase`
   ADD KEY `User_Id` (`User_Id`);
 
 --
--- Indices de la tabla `species`
+-- Indexes for table `species`
 --
 ALTER TABLE `species`
   ADD PRIMARY KEY (`Id_Specie`);
 
 --
--- Indices de la tabla `trees`
+-- Indexes for table `trees`
 --
 ALTER TABLE `trees`
   ADD PRIMARY KEY (`Id_Tree`),
   ADD KEY `fk_Specie_Id` (`Specie_Id`);
 
 --
--- Indices de la tabla `users`
+-- Indexes for table `tree_update`
+--
+ALTER TABLE `tree_update`
+  ADD PRIMARY KEY (`Id_TreeUpdate`),
+  ADD KEY `fk_update` (`Tree_Id`);
+
+--
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`Id_User`),
@@ -492,63 +521,69 @@ ALTER TABLE `users`
   ADD KEY `District_Id` (`District_Id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `cart`
+-- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
   MODIFY `Id_Cart` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT de la tabla `country`
+-- AUTO_INCREMENT for table `country`
 --
 ALTER TABLE `country`
   MODIFY `Id_Country` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de la tabla `district`
+-- AUTO_INCREMENT for table `district`
 --
 ALTER TABLE `district`
   MODIFY `Id_District` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
--- AUTO_INCREMENT de la tabla `province`
+-- AUTO_INCREMENT for table `province`
 --
 ALTER TABLE `province`
   MODIFY `Id_Province` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT de la tabla `purchase`
+-- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
   MODIFY `Id_Purchase` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT de la tabla `species`
+-- AUTO_INCREMENT for table `species`
 --
 ALTER TABLE `species`
   MODIFY `Id_Specie` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT de la tabla `trees`
+-- AUTO_INCREMENT for table `trees`
 --
 ALTER TABLE `trees`
   MODIFY `Id_Tree` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT de la tabla `users`
+-- AUTO_INCREMENT for table `tree_update`
+--
+ALTER TABLE `tree_update`
+  MODIFY `Id_TreeUpdate` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `Id_User` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `cart`
+-- Constraints for table `cart`
 --
 ALTER TABLE `cart`
   ADD CONSTRAINT `User_Id` FOREIGN KEY (`Id_Cart`) REFERENCES `users` (`Id_User`),
@@ -556,32 +591,38 @@ ALTER TABLE `cart`
   ADD CONSTRAINT `fk_user` FOREIGN KEY (`User_Id`) REFERENCES `users` (`Id_User`);
 
 --
--- Filtros para la tabla `district`
+-- Constraints for table `district`
 --
 ALTER TABLE `district`
   ADD CONSTRAINT `district_ibfk_1` FOREIGN KEY (`Province_Id`) REFERENCES `province` (`Id_Province`);
 
 --
--- Filtros para la tabla `province`
+-- Constraints for table `province`
 --
 ALTER TABLE `province`
   ADD CONSTRAINT `province_ibfk_1` FOREIGN KEY (`Country_Id`) REFERENCES `country` (`Id_Country`);
 
 --
--- Filtros para la tabla `purchase`
+-- Constraints for table `purchase`
 --
 ALTER TABLE `purchase`
   ADD CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`Tree_Id`) REFERENCES `trees` (`Id_Tree`),
   ADD CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`User_Id`) REFERENCES `users` (`Id_User`);
 
 --
--- Filtros para la tabla `trees`
+-- Constraints for table `trees`
 --
 ALTER TABLE `trees`
   ADD CONSTRAINT `fk_Specie_Id` FOREIGN KEY (`Specie_Id`) REFERENCES `species` (`Id_Specie`);
 
 --
--- Filtros para la tabla `users`
+-- Constraints for table `tree_update`
+--
+ALTER TABLE `tree_update`
+  ADD CONSTRAINT `fk_update` FOREIGN KEY (`Tree_Id`) REFERENCES `trees` (`Id_Tree`);
+
+--
+-- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`District_Id`) REFERENCES `district` (`Id_District`);

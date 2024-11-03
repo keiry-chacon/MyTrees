@@ -1,10 +1,15 @@
 <?php
+
+/*
+* Delete a species within the table
+*/
+
 include('../../utils/administrator/admin_functions.php');
 
 if ($_POST && isset($_REQUEST['id_specie'])) {
-    $id_specie = (int)$_REQUEST['id_specie'];
 
-    $newState = isset($_REQUEST['new_state']) ? (int)$_REQUEST['new_state'] : 0; 
+    $id_specie  = (int)$_REQUEST['id_specie'];
+    $newState   = isset($_REQUEST['new_state']) ? (int)$_REQUEST['new_state'] : 0; 
 
     $existingSpecie = getSpecieById($id_specie);
     if (empty($existingSpecie)) {

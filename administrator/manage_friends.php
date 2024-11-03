@@ -1,5 +1,13 @@
 <?php
+
+/*
+* Shows friends list
+*/
+
   include('../utils/administrator/admin_functions.php');
+
+  $uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_user/";
+
   $users = getUsers();
   $error_msg = '';
   if(isset($_GET['error'])) {
@@ -24,12 +32,12 @@
       <table class="table table-striped table-bordered">
         <thead class="thead-dark">
             <tr>
+                <th>Profile Picture</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Photo_Path</th>
-
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -37,11 +45,21 @@
               if (!empty($users)) {
                 foreach ($users as $user) { ?>
                     <tr>
-                        <td><?= $user['First_Name'] ?></td>
-                        <td><?= $user['Last_Name1'] ?></td>
-                        <td><?= $user['Username'] ?></td>
-                        <td><?= $user['Email'] ?></td>
-                        <td><?= $user['Photo_Path'] ?></td>
+                    <td>
+                          <?php if(!empty($user['Photo_Path'])) { ?>
+                            <img src="<?= htmlspecialchars($uploads_folder. $user['Photo_Path']) ?>" alt="Profile Picture" class="rounded-circle" style="width: 50px; height: 50px;">
+                          <?php } else { ?>
+                            <span>No Image</span>
+                          <?php } ?>
+                        <td><?= htmlspecialchars($user['First_Name']) ?></td>
+                        <td><?= htmlspecialchars($user['Last_Name1']) ?></td>
+                        <td><?= htmlspecialchars($user['Username']) ?></td>
+                        <td><?= htmlspecialchars($user['Email']) ?></td>
+                        <td class="text-center">
+                          <a href="friend_trees.php?id=<?= $user['Id_User'] ?>" class="btn btn-edit" title="Edit">
+                            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                          </a>
+                        </td>
                     </tr>
                 <?php }  
               } 

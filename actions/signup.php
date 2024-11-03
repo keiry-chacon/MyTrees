@@ -1,10 +1,14 @@
 <?php
+
+/*
+* Sign Up
+*/
+
 require '../utils/functions.php';
 
 $uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_user/";
 
 if ($_POST && isset($_REQUEST['first_name'])) {
-  // Sanitize input fields to avoid malicious input
   $user['first_name'] = trim($_POST['first_name']);
   $user['last_name1'] = trim($_POST['last_name1']);
   $user['last_name2'] = trim($_POST['last_name2']);
@@ -18,13 +22,12 @@ if ($_POST && isset($_REQUEST['first_name'])) {
   $user['password']   = trim($_POST['password']);
   $user['pic']        = "default_profile.png";
 
-  // upload image
+  // Upload image
   if (!empty($_FILES["profilePic"]["tmp_name"])) {
   $file_tmp = $_FILES["profilePic"]["tmp_name"];
   $is_custom_image = true;
   }
  
- // Required fields to validate
  $required_fields = ['first_name', 'last_name1', 'email', 'username', 'password', 'province', 'country','district'];
 
   foreach ($required_fields as $field) {
@@ -38,16 +41,21 @@ if ($_POST && isset($_REQUEST['first_name'])) {
     header("Location: ../signup.php?error=" . urlencode("Email already registered"));
     exit; 
   }
+
   if (emailExists($user['username'])) {
     header("Location: ../signup.php?error=" . urlencode("User already registered"));
     exit; 
   }
+
   if ($userId = saveUser($user)) {
     if($is_custom_image){
-    $file_name = $userId . '.' . pathinfo($_FILES["profilePic"]["name"], PATHINFO_EXTENSION);
-    $target_file = $uploads_folder . $file_name;
+
+    $file_name    = $userId . '.' . pathinfo($_FILES["profilePic"]["name"], PATHINFO_EXTENSION);
+    $target_file  = $uploads_folder . $file_name;
+
     move_uploaded_file($file_tmp,$target_file);
     updateUserPic($userId, $file_name);
+
     }
     header( "Location: ../index.php",);
   } else {

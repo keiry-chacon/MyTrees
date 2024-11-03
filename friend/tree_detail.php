@@ -1,28 +1,43 @@
 <?php
+
+/*
+* To buy or add to cart
+*/
+
+
 require_once ('../inc/header_friend.php'); 
 require_once('../utils/friend/friend_functions.php');
 
 $uploads_folder = "../uploads_tree/";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-    $treeId = $_POST['tree_id'];
-    $userId = $_SESSION['Id_User'];
-    $response = addToCart($userId, $treeId);
+    $treeId     = $_POST['tree_id'];
+    $userId     = $_SESSION['Id_User'];
+    $response   = addToCart($userId, $treeId);
     
     if ($response) {
         header("Location: friend.php");
-        exit; // Asegúrate de llamar a exit después de header para detener la ejecución
+        exit; 
     } else {
         echo "Error al agregar el árbol al carrito.";
     }
 }
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $tree = getTreeDetailsById($id); 
+    $id     = $_GET['id'];
+    $tree   = getTreeDetailsById($id); 
 }
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+
+
+
+
+
+
+
 
 <style>
     /* Tu CSS aquí */

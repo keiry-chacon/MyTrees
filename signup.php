@@ -1,16 +1,22 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <?php
+
+/*
+* Sign Up Interface
+*/
+
   include('utils/functions.php');
 
   $countries = getCountries();
-  
   
   $error_msg = '';
   if(isset($_GET['error'])) {
     $error_msg = $_GET['error'];
   }
+
 ?>
+
 <?php require('inc/header.php')?>
   <div class="container-fluid">
     <div class="jumbotron">

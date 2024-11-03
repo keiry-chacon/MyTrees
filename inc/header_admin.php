@@ -1,7 +1,9 @@
 <?php include 'header.php';
-$uploads_folder = "../uploads_user/";
+
+$uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_user/";
 
 $profilepic= $uploads_folder.($_SESSION['ProfileImage'])
+
 ?>
 <header>
 
