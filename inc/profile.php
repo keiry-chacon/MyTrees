@@ -1,23 +1,30 @@
 <?php
+
+
+
 include 'header.php';
 include '../utils/functions.php';
+
 $uploads_folder = "../uploads_user/";
 
 $username = isset($_GET['username']) ? $_GET['username'] : null;
 if (!$username) {
     die("No se ha proporcionado un nombre de usuario.");
 }
+
 $userData = getUserData($username);
 if (!$userData) {
     die("No se encontró el usuario.");
 }
+<<<<<<< HEAD
 $profileImage = $uploads_folder . $userData['Profile_Pic'] . '?' . time();
 $username = $userData['Username'];
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $updateSuccess = false;
     $userId = $_SESSION['Id_User']; 
-    // Actualizar foto de perfil
+
     if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == UPLOAD_ERR_OK) {
         $profileImage = $_FILES['profileImage'];
         
@@ -37,8 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['ProfileImage'] = $newImageName;
 
         $updateSuccess = true;
-
-    
     }
 
     if (isset($_POST['username'])) {
@@ -70,9 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<script>alert('Username or email already exists.');</script>";
     }
 }
-
-
 ?>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <div class="container mt-5">
     <div class="card" style="max-width: 600px; margin: auto;">
@@ -86,14 +90,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </span>
                 
         </div>
-            
 
             <form action="profile.php?username=<?php echo urlencode($username); ?>" method="POST" enctype="multipart/form-data" class="mt-3">
                 <input type="file" name="profileImage" id="profileImage" accept="image/*" style="display: none;">
                 <button type="submit" class="btn btn-primary mt-2" id="submitImage" style="display: none;">Actualizar Imagen</button>
 
             </form>
-            
 
             <div class="mt-4">
                 <h4 style="display: inline-block;"><?php echo htmlspecialchars($username); ?></h4>
@@ -101,7 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-pencil-alt"></i>
                 </span>
             </div>
-
 
             <form action="profile.php?username=<?php echo urlencode($username); ?>" method="POST" id="username-form" class="mt-4" style="display: none;">
     <label for="username">Username</label>
@@ -156,6 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
+
+
+
 <script>
  document.querySelector('.edit-icon').addEventListener('click', function() {
         document.getElementById('profileImage').click();
@@ -175,7 +179,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 </script>
 <link rel="stylesheet" href="../css/profile.css"> 
-
 
 <?php
 include 'footer.php';

@@ -69,6 +69,9 @@ function getSpecies(): array {
 
 
 
+/*
+* Obtains the species to concatenate them
+*/
 function getSpeciesSelect(): array {
     $conn = getConnection();
     $species = [];
@@ -84,7 +87,7 @@ function getSpeciesSelect(): array {
 
         if ($result) {
             while ($row = mysqli_fetch_assoc($result)) {
-                // Concatenamos ambos nombres para mostrarlos en el <select>
+                // Concatenate both names to display them in the <select>
                 $species[$row['Id_Specie']] = $row['Commercial_Name'] . " (" . $row['Scientific_Name'] . ")";
             }
 
@@ -157,11 +160,9 @@ function specieExists($commercialName, $scientificName): bool {
     $conn = getConnection();
   
     if ($conn) {
-        // Escape both inputs to prevent SQL injection
         $commercialNameEscaped = mysqli_real_escape_string($conn, $commercialName);
         $scientificNameEscaped = mysqli_real_escape_string($conn, $scientificName);
 
-        // Modify the query to check both Commercial_Name and Scientific_Name
         $query = "SELECT COUNT(*) as count FROM species 
                   WHERE Commercial_Name = '$commercialNameEscaped' 
                   OR Scientific_Name = '$scientificNameEscaped'";
@@ -174,7 +175,6 @@ function specieExists($commercialName, $scientificName): bool {
             mysqli_free_result($result);
             mysqli_close($conn);
   
-            // Return true if any matching record is found
             return $row['count'] > 0;
         } else {
             echo "Query error: " . mysqli_error($conn);
@@ -192,7 +192,7 @@ function specieExists($commercialName, $scientificName): bool {
 
 
 /*
-* Saves a specific specie into the database
+* Saves a specie into the database
 */
 function saveSpecie($specie): bool {
 
@@ -377,43 +377,46 @@ function getTreeById($id_tree): array {
 
 
 /*
-* Saves a specific tree into the database
+* Saves a tree into the database
 */
 function saveTree($tree) {
     $conn = getConnection();
 
-    // Asignar valores del array $tree a variables individuales
     $Specie_Id  = $tree['specie_id'];
     $Location   = $tree['location'];
     $Size       = $tree['size'];
     $StatusT    = $tree['statusT'];
     $Price      = $tree['price'];
-    $Photo_Path = $tree['photoPath'] ?? null; // Asegurarse de que la imagen puede ser opcional
+    $Photo_Path = $tree['photoPath'] ?? null; 
 
-    // Incluir todos los campos en la consulta SQL
     $sql = "INSERT INTO trees (Specie_Id, Location, Size, StatusT, Price, Photo_Path) 
             VALUES (?, ?, ?, ?, ?, ?)";
 
     try {
         $stmt = $conn->prepare($sql);
         
-        // Enlazar todos los parámetros
         $stmt->bind_param("isisds", $Specie_Id, $Location, $Size, $StatusT, $Price, $Photo_Path);
         
         $stmt->execute();
 
-        // Obtener el ID del árbol recién insertado
         $tree_id = $conn->insert_id;
 
         $stmt->close();
         $conn->close();
         
-        return $tree_id; // Retornar el ID del árbol
+        return $tree_id; 
     } catch (Exception $e) {
         echo $e->getMessage();
-        return false; // Retornar false en caso de error
+        return false; 
     }
 }
+
+
+
+
+/*
+* Update tree photo
+*/
 function updateTreePic($userId, $fileName) {
     $conn = getConnection();
     $sql = "UPDATE trees SET Photo_Path = ? WHERE Id_Tree = ?";
@@ -443,7 +446,7 @@ function updateTree($tree, $id_tree): bool {
     $Size              = $tree['size'];
     $StatusT           = $tree['statusT'];
     $Price             = $tree['price'];
-    $Photo_Path        = $tree['photoPath'] ?? null; // Asegurarse de que la imagen puede ser opcional
+    $Photo_Path        = $tree['photoPath'] ?? null; 
 
     $sql = "UPDATE trees SET 
                 Specie_Id   = '$Specie_Id', 
@@ -493,6 +496,14 @@ function updateTreeStatus(int $id_tree, int $statusT): bool {
 
 
 
+
+/*
+*-------------------------------------------------------------------------------------------------------------
+* Users Functions
+*/
+
+
+
 /*
 * Gets the users from the database
 */
@@ -539,10 +550,161 @@ function getUsers(): array {
 
 
 
+function getFriendsTrees($friendId): array {
+    $conn = getConnection(); 
+    $trees = [];
+    $statusAvailable = 1;
+   
+
+    $query = "
+        SELECT 
+            p.Id_Purchase, 
+            p.Payment_Method, 
+            p.Shipping_Location, 
+            p.Purchase_Date, 
+            t.Id_Tree, 
+            t.Specie_Id, 
+            s.Commercial_Name,  
+            s.Scientific_Name,  
+            t.Location, 
+            p.StatusP, 
+            t.Price, 
+            t.Photo_Path
+        FROM purchase p
+        INNER JOIN trees t ON t.Id_Tree = p.Tree_Id  
+        INNER JOIN species s ON t.Specie_Id = s.Id_Specie  
+        WHERE p.User_Id = ? AND p.StatusP = ?
+    ";
+
+    if ($stmt = mysqli_prepare($conn, $query)) {
+        mysqli_stmt_bind_param($stmt, "ii", $friendId, $statusAvailable);
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+           
+            while ($row = mysqli_fetch_assoc($result)) {
+                $trees[] = [
+                    'Id_Purchase'      => $row['Id_Purchase'],
+                    'Payment_Method'   => $row['Payment_Method'],
+                    'Shipping_Location'=> $row['Shipping_Location'],
+                    'Purchase_Date'    => $row['Purchase_Date'],
+                    'Id_Tree'          => $row['Id_Tree'],
+                    'Specie_Id'        => $row['Specie_Id'],
+                    'Commercial_Name'  => $row['Commercial_Name'],
+                    'Scientific_Name'  => $row['Scientific_Name'],
+                    'Location'         => $row['Location'],
+                    'StatusP'          => $row['StatusP'],
+                    'Price'            => $row['Price'],
+                    'Photo_Path'       => $row['Photo_Path'],
+                ];
+            }
+            mysqli_free_result($result);
+        }
+        mysqli_stmt_close($stmt);
+    }
+
+    mysqli_close($conn);
+    return $trees;
+}
 
 
 
 
 
+/*
+*-------------------------------------------------------------------------------------------------------------
+* Friends Functions
+*/
 
-  
+
+
+/*
+* Updates about an specific tree into the database with UPDATE 
+*/
+function updateFriendTree($tree, $id_tree): bool {
+
+    $Specie_Id         = $tree['specie_id'];
+    $Location          = $tree['location'];
+    $Size              = $tree['size'];
+    $StatusT           = $tree['statusT'];
+
+    $sql = "UPDATE trees SET 
+                Specie_Id   = '$Specie_Id', 
+                Location    = '$Location', 
+                Size        = '$Size', 
+                StatusT     = '$StatusT'
+
+            WHERE Id_Tree = $id_tree";
+
+    try {
+        $conn = getConnection();
+        mysqli_query($conn, $sql);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return false;
+    }
+    return true;
+}
+
+
+
+
+/*
+* Register an update about an specific tree into the database with REGISTER TREE UPDATE
+*/
+function registerTreeUpdate($tree, $id_tree): bool {
+
+    $conn = getConnection(); 
+
+    $Size              = $tree['size'];
+    $StatusT           = $tree['statusT'];
+    $UpdateDate        = date('Y-m-d H:i:s'); 
+
+
+    $sql = "INSERT INTO tree_update (Tree_Id, Size, StatusT, UpdateDate) 
+            VALUES (?, ?, ?, ?)";
+
+    try {
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->bind_param("iiis", $id_tree, $Size, $StatusT, $UpdateDate);
+        
+        $stmt->execute();
+
+        $tree_id = $conn->insert_id;
+
+        $stmt->close();
+        $conn->close();
+        
+        return $tree_id; 
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return false; 
+    }
+}
+
+
+
+
+/*
+* Updates about an specific tree into the database in trees when u execute REGISTER TREE UPDATE
+*/
+function updateTreeRegister($tree, $id_tree): bool {
+
+    $Size              = $tree['size'];
+    $StatusT           = $tree['statusT'];
+
+    $sql = "UPDATE trees SET  
+                Size        = '$Size', 
+                StatusT     = '$StatusT'
+
+            WHERE Id_Tree = $id_tree";
+
+    try {
+        $conn = getConnection();
+        mysqli_query($conn, $sql);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return false;
+    }
+    return true;
+}

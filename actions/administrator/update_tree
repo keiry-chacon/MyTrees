@@ -1,12 +1,16 @@
 <?php
+
+/*
+* Update the information of a tree
+*/
+
 include('../../utils/administrator/admin_functions.php');
 
-$uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads/";
+$uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_tree/";
 
 $error_msg = '';
 
 if ($_POST && isset($_POST['specie_id'])) {
-  // Sanitize input fields to avoid malicious input
   $id_tree              = (int)$_POST['id'];
   $tree['specie_id']    = trim($_POST['specie_id']); 
   $tree['location']     = trim($_POST['location']);
@@ -14,15 +18,15 @@ if ($_POST && isset($_POST['specie_id'])) {
   $tree['statusT']      = trim($_POST['statusT']);
   $tree['price']        = trim($_POST['price']);
 
-  $file_tmp = $_FILES["photoPath"]["tmp_name"];
-  $file_name = basename($_FILES["photoPath"]["name"]);
-  $target_file = $uploads_folder . $file_name;
+  $file_tmp     = $_FILES["photoPath"]["tmp_name"];
+  $file_name    = basename($_FILES["photoPath"]["name"]);
+  $target_file  = $uploads_folder . $file_name;
+
   move_uploaded_file($file_tmp,$target_file);
 
-  $tree['photoPath'] = $file_name;
+  $tree['photoPath']  = $file_name;
 
-  // Required fields to validate
-  $required_fields = ['specie_id', 'location', 'statusT', 'price'];
+  $required_fields    = ['specie_id', 'location', 'statusT', 'price'];
 
   foreach ($required_fields as $field) {
     if (empty($tree[$field])) {

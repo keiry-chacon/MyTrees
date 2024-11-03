@@ -1,7 +1,9 @@
+<<<<<<< HEAD
 <?php
 include 'header.php';
 $uploads_folder = "../uploads_user/";
 $profilePic = $uploads_folder . ($_SESSION['ProfileImage']). '?' . time();
+
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 

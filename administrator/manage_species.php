@@ -1,4 +1,9 @@
 <?php
+
+/*
+* shows the list of species
+*/
+
   include('../utils/administrator/admin_functions.php');
   $species = getSpecies();
   $error_msg = '';

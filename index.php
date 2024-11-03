@@ -1,4 +1,9 @@
 <?php
+
+/*
+* Login
+*/
+
   include('utils/functions.php');
   $error_msg = isset($_GET['error']) ? $_GET['error'] : '';
 ?>

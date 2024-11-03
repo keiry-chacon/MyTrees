@@ -1,5 +1,11 @@
 <?php
+
+/*
+* Shows the list of trees
+*/
+
   include('../utils/administrator/admin_functions.php');
+  
   $trees = getTrees();
   $error_msg = '';
   if(isset($_GET['error'])) {

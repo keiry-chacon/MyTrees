@@ -1,15 +1,19 @@
 <?php 
+
+/*
+* Friend Interface
+*/
+
 include '../inc/header_friend.php'; 
 require_once('../utils/friend/friend_functions.php');
+
 if (isset($_SESSION['purchase_message'])) {
     echo "<div class='success-message'>" . $_SESSION['purchase_message'] . "</div>";
-    
     unset($_SESSION['purchase_message']);
 }
-$trees = getAllAvailableTrees();
 
-$uploads_folder = "../uploads_tree/";
-
+$trees              = getAllAvailableTrees();
+$uploads_folder     = "../uploads_tree/";
 
 ?>
 <div class="hero-section">
@@ -23,8 +27,8 @@ $uploads_folder = "../uploads_tree/";
 <div id="available-trees" class="product-container">
     <div class="tree-cards">
         <?php foreach ($trees as $tree):
-            $photoTree = $uploads_folder . $tree['Photo_Path'];
-            $treeDetailUrl = "tree_detail.php?id=" . $tree['Id_Tree']; // URL de detalle del árbol
+            $photoTree      = $uploads_folder . $tree['Photo_Path'];
+            $treeDetailUrl  = "tree_detail.php?id=" . $tree['Id_Tree']; // Tree Detail URL
             ?>
             <a href="<?php echo $treeDetailUrl; ?>" class="card">
                 <img src="<?php echo $photoTree; ?>" alt="Imagen del Árbol">
@@ -42,11 +46,11 @@ $uploads_folder = "../uploads_tree/";
 <link rel="stylesheet" href="../css/friend.css">
 
 <script>
-    // JavaScript para ocultar el mensaje después de 4 segundos
+    // JavaScript to hide message after 4 seconds
     setTimeout(function() {
         const successMessage = document.querySelector('.success-message');
         if (successMessage) {
             successMessage.style.display = 'none';
         }
-    }, 4000); // 4000 ms = 4 segundos
+    }, 4000); // 4000 ms = 4 seconds
 </script>

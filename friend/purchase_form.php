@@ -1,17 +1,21 @@
 <?php
-// purchase_form.php
+
+/*
+* Purchase Form
+*/
+
 include '../inc/header_friend.php'; 
 require_once('../utils/friend/friend_functions.php');
 
-$treeId = $_GET['id'];
+$treeId         = $_GET['id'];
 $uploads_folder = "../uploads_tree/";
+$tree           = getTreeDetailsById($treeId); 
 
-$tree = getTreeDetailsById($treeId); 
 ?>
 <div class="purchase-form-container">
     <h1>Purchase Form</h1>
 
-    <!-- Resumen de la compra -->
+    <!-- Purchase Summary -->
     <div class="purchase-summary">
         <h2>Purchase Summary</h2>
         <img src="<?php echo $uploads_folder . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>" class="tree-image">
@@ -36,12 +40,36 @@ $tree = getTreeDetailsById($treeId);
             </select>
         </div>
 
-        <!-- Botón para pagar ahora -->
+        <!-- Pay Now Button -->
         <button type="submit" class="pay-now-button">Pay Now</button>
     </form>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <style>
+    
+    /*
+        * Style Purchase Form
+    */
+
     .purchase-form-container {
         max-width: 600px; /* Ancho máximo del formulario */
         margin: 30px auto; /* Margen para centrar el formulario y separar del navegador */
