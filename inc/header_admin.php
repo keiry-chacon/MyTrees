@@ -1,5 +1,7 @@
 <?php include 'header.php';
-$profilepic= "../".($_SESSION['ProfileImage'])
+$uploads_folder = "../uploads_user/";
+
+$profilepic= $uploads_folder.($_SESSION['ProfileImage'])
 ?>
 <header>
 

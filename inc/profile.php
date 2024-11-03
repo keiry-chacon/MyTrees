@@ -1,6 +1,7 @@
 <?php
 include 'header.php';
 include '../utils/functions.php';
+$uploads_folder = "../uploads_user/";
 
 $username = isset($_GET['username']) ? $_GET['username'] : null;
 if (!$username) {
@@ -10,25 +11,69 @@ $userData = getUserData($username);
 if (!$userData) {
     die("No se encontró el usuario.");
 }
-$profileImage = "../" . $userData['Profile_Pic'];
+$profileImage = $uploads_folder . $userData['Profile_Pic'];
 $username = $userData['Username'];
-$userRole = isset($userData['Role']) ? $userData['Role'] : 'friend'; // Default to 'friend'
 
-// Manejar la actualización de la foto de perfil y otros detalles si se envía un formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $updateSuccess = false;
+    $userId = $_SESSION['Id_User']; 
+    // Actualizar foto de perfil
+    if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == UPLOAD_ERR_OK) {
+        $profileImage = $_FILES['profileImage'];
+        
+        $currentImage = $userId; 
+        
+        if ($currentImage && $currentImage !== "default_profile.png") {
+            $currentImagePath = $uploads_folder . $currentImage;
+            if (file_exists($currentImagePath)) {
+                unlink($currentImagePath); 
+            }
+        }
 
-    if (isset($_FILES['profileImage'])) {
+        $newImageName = $userId . '.' . pathinfo($profileImage['name'], PATHINFO_EXTENSION); 
+        move_uploaded_file($profileImage['tmp_name'], $uploads_folder . $newImageName);
+
+        updateUserPic($userId, $newImageName); 
+        $_SESSION['ProfileImage'] = $newImageName;
+
+        $updateSuccess = true;
+
+    
     }
 
-    // Actualizar otros datos del usuario si es necesario
     if (isset($_POST['username'])) {
         $newUsername = $_POST['username'];
+        $firstName = $_POST['first_name'];
+        $lastName1 = $_POST['last_name1'];
+        $lastName2 = $_POST['last_name2'];
+        $email     = $_POST['email']; 
+        $phone     = $_POST['phone'];
+        $gender    = $_POST['gender'];
+        $password  = $_POST['password'];
+
+        $updateSuccess = updateUserData($_SESSION['Id_User'], $newUsername, $firstName, $lastName1, $lastName2, $email, $phone, $gender, $password);
+        $_SESSION['Username']     = $newUsername;
+
+    }
+
+    if ($updateSuccess) {
+        $userRole = $_SESSION['Role_id']; 
+        $adminRole = 1;
+        $friendRole = 2;
+        if ($userRole ==  $adminRole) {
+            header("Location: ../administrator/admin.php");
+        } elseif ($userRole == $friendRole) {
+            header("Location: ../friend/friend.php");
+        }
+        exit;  
+    } else {
+        echo "<script>alert('Username or email already exists.');</script>";
     }
 }
 
+
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<form method="post" action="../actions/signup.php">
 <div class="container mt-5">
     <div class="card" style="max-width: 600px; margin: auto;">
         <div class="card-body text-center">
@@ -59,49 +104,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
             <form action="profile.php?username=<?php echo urlencode($username); ?>" method="POST" id="username-form" class="mt-4" style="display: none;">
-            <label for="username">Username</label>
-            <div class="form-group">
-                    <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($username); ?>">
-                </div>
-                <label for="first_name">First Name</label>
+    <label for="username">Username</label>
+    <div class="form-group">
+        <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($username); ?>">
+    </div>
 
-                <div class="form-group">
-                    <input type="text" class="form-control" name="first_name" placeholder="Nombre" value="<?php echo htmlspecialchars($userData['First_Name']); ?>">
-                </div>
-                <label for="last_name1">Last Name (First)</label>
+    <label for="first_name">First Name</label>
+    <div class="form-group">
+        <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo htmlspecialchars($userData['First_Name']); ?>">
+    </div>
 
-                <div class="form-group">
-                    <input type="text" class="form-control" name="last_name1" placeholder="Primer Apellido" value="<?php echo htmlspecialchars($userData['Last_Name1']); ?>">
-                </div>
-                <label for="last_name2">Last Name (Second)</label>
+    <label for="last_name1">Last Name (First)</label>
+    <div class="form-group">
+        <input type="text" class="form-control" id="last_name1" name="last_name1" value="<?php echo htmlspecialchars($userData['Last_Name1']); ?>">
+    </div>
 
-                <div class="form-group">
-                    <input type="text" class="form-control" name="last_name2" placeholder="Segundo Apellido" value="<?php echo htmlspecialchars($userData['Last_Name2']); ?>">
-                </div>
-                <label for="phone">Phone</label>
+    <label for="last_name2">Last Name (Second)</label>
+    <div class="form-group">
+        <input type="text" class="form-control" id="last_name2" name="last_name2" value="<?php echo htmlspecialchars($userData['Last_Name2']); ?>">
+    </div>
+    <label for="email">Email</label>
+    <div class="form-group">
+        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($userData['Email']); ?>">
+    </div>
+    <label for="phone">Phone</label>
+    <div class="form-group">
+        <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($userData['Phone']); ?>">
+    </div>
 
-                <div class="form-group">
-                    <input type="text" class="form-control" name="phone" placeholder="Teléfono" value="<?php echo htmlspecialchars($userData['Phone']); ?>">
-                </div>
-                <label for="gender">Gender</label>
+    <label for="gender">Gender</label>
+    <div class="form-group">
+        <select class="form-control" name="gender" id="gender">
+            <option value="M" <?php if ($userData['Gender'] == 'M') echo 'selected'; ?>>Male</option>
+            <option value="F" <?php if ($userData['Gender'] == 'F') echo 'selected'; ?>>Female</option>
+            <option value="O" <?php if ($userData['Gender'] == 'O') echo 'selected'; ?>>Other</option>
+        </select>
+    </div>
 
-                <div class="form-group">
-                    <select class="form-control" name="gender">
-                        <option value="male" <?php if($userData['Gender'] == 'M') echo 'selected'; ?>>M</option>
-                        <option value="female" <?php if($userData['Gender'] == 'F') echo 'selected'; ?>>F</option>
-                        <option value="other" <?php if($userData['Gender'] == 'O') echo 'selected'; ?>>Other</option>
+    <label for="password">Password</label>
+    <div class="form-group">
+        <input type="password" class="form-control" id="password" name="password" placeholder="">
+    </div>
 
-                    </select>
-                </div>
-                <label for="password">Password</label>
-                <div class="form-group">
-                    <input type="password" class="form-control" name="password" placeholder="" value="">
-                </div>
-                <div class="form-group mt-4 d-flex justify-content-between">
-                    <a href="<?php echo ($userRole === 'admin') ? '../administrator/admin.php' : '../friend/friend.php'; ?>" class="btn btn-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-success ms-2">Update</button>
-                </div>
-            </form>
+    <div class="form-group mt-4 d-flex justify-content-between">
+        <a href="<?php echo ($userRole === 'admin') ? '../administrator/admin.php' : '../friend/friend.php'; ?>" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-success ms-2">Update</button>
+    </div>
+</form>
+
         </div>
     </div>
 </div>

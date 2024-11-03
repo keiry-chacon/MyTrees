@@ -1,18 +1,20 @@
 <?php 
 include 'header.php';
 require('../utils/friend/friend_functions.php');
+$uploads_folder = "../uploads_user/";
+$uploads_folder_t = "../uploads_tree/";
 
-$profilepic = "../" . ($_SESSION['ProfileImage']);
+$profilepic = $uploads_folder . ($_SESSION['ProfileImage']);
 $cartItems = getCartItemsForUser($_SESSION['Id_User']);
 
 // Mostrar el carrito si hay elementos
-function displayCartItems($cartItems) {
+function displayCartItems($cartItems, $uploads_folder_t) {
     if (!empty($cartItems)) {
         echo "<div id='cart-panel' class='cart-panel'>";
         echo "<h2>Shopping Cart</h2><ul id='cart-items'>";
         foreach ($cartItems as $cartItem) {
             echo "<li class='cart-item'>";
-            echo "<img src='../" . htmlspecialchars($cartItem['Photo_Path']) . "' alt='Imagen del Árbol' style='width: 50px; height: auto;'>"; // Mostrar imagen
+            echo "<img src='" . $uploads_folder_t . htmlspecialchars($cartItem['Photo_Path']) . "' alt='Imagen del Árbol' style='width: 50px; height: auto;'>";
             echo "<span>" . htmlspecialchars($cartItem['Commercial_Name']) . " - $" . htmlspecialchars($cartItem['Price']) . "</span>"; // Mostrar nombre y precio
             echo "<button onclick='removeFromCart(" . htmlspecialchars($cartItem['Tree_Id']) . ")' class='remove-button'><i class='fas fa-trash'></i></button>";
             echo "</li>";
@@ -24,7 +26,7 @@ function displayCartItems($cartItems) {
 }
 
 // Mostrar el carrito
-displayCartItems($cartItems);
+displayCartItems($cartItems,$uploads_folder_t);
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -58,9 +60,9 @@ displayCartItems($cartItems);
 
     <!-- Panel del carrito -->
     <div id="cart-panel" class="cart-panel" style="display: none;">
-        <h4>Tu Carrito</h4>
+        <h4>Your Cart</h4>
         <ul id="cart-items"></ul>
-        <button id="checkout-btn" class="btn btn-primary">Pagar Ahora</button>
+        <button id="checkout-btn" class="btn btn-primary">Buy Now</button>
     </div>
 </header>
 
@@ -87,8 +89,8 @@ displayCartItems($cartItems);
     // Función para eliminar un artículo del carrito
     function removeFromCart(treeId) {
         if (confirm('¿Estás seguro de que deseas eliminar este artículo del carrito?')) {
-            // Realiza la llamada a PHP para eliminar el artículo del carrito
-            fetch('remove_from_cart.php', {
+            // Realiza la llamada a PHP para eliminar el artículo del carrito y cambiar el estado a 'abandoned'
+            fetch('../remove_from_cart.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -98,7 +100,8 @@ displayCartItems($cartItems);
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Recargar el carrito
+                   
+                    changeCartStateToAbandoned(); // Llama a la función para cambiar el estado
                     location.reload(); // Recargar la página para actualizar el carrito
                 } else {
                     alert(data.message);
@@ -109,44 +112,6 @@ displayCartItems($cartItems);
     }
 </script>
 
-<link rel="stylesheet" href="../css/profile.css">
-<style>
-   
-    .cart-panel {
-        position: absolute;
-        right: 10px;
-        top: 60px; /* Ajusta según sea necesario */
-        width: 300px;
-        background: white;
-        border: 1px solid #ddd;
-        padding: 15px;
-        z-index: 1000;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
+<link rel="stylesheet" href="../css/header_friend.css">
 
-    .cart-item {
-        display: flex;
-        align-items: center; /* Centrar verticalmente */
-        justify-content: space-between; /* Espacio entre imagen y texto */
-        margin: 5px 0;
-    }
-
-    .remove-button {
-        border: none;
-        background: none;
-        cursor: pointer;
-        color: red; /* Color rojo */
-        font-size: 16px; /* Tamaño de fuente más pequeño */
-    }
-
-    .remove-button i {
-        font-size: 20px; /* Tamaño del icono */
-        vertical-align: middle; /* Alinear verticalmente */
-    }
-
-    .remove-button:hover {
-        color: darkred; /* Color más oscuro al pasar el ratón */
-    }
-
-</style>
 

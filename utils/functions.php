@@ -230,27 +230,22 @@ function getUserById($id_user): array {
 }
 
 function getUserData($username) {
-    // Aquí deberías establecer la conexión con la base de datos
     $conn = getConnection();
     
-    // Verificar si la conexión ha fallado
     if ($conn->connect_error) {
         die("Conexión fallida: " . $conn->connect_error);
     }
 
-    // Consulta para obtener los datos del usuario según su ID
     $stmt = $conn->prepare("SELECT * FROM users WHERE Username = ?");
-    $stmt->bind_param("s", $username); // "i" es para enteros
+    $stmt->bind_param("s", $username);
 
     $stmt->execute();
     $result = $stmt->get_result();
     
-    // Verifica si se encontró el usuario
     if ($result->num_rows > 0) {
-        // Retornar los datos como un arreglo asociativo
         return $result->fetch_assoc();
     } else {
-        return null; // Usuario no encontrado
+        return null; 
     }
 }
 
@@ -346,8 +341,7 @@ function userExists($username): bool {
 /*
 * Saves a specific user into the database
 */
-function saveUser($user): bool {
-
+function saveUser($user) {
     $conn = getConnection();
 
     $first_name   = $user['first_name'];
@@ -362,25 +356,86 @@ function saveUser($user): bool {
     $phone        = $user['phone']; 
     $gender       = $user['gender']; 
     $created_at   = date('Y-m-d H:i:s'); 
-    $url_pic      = $user['pic']; 
+    $url_pic      = $user['pic'] ;
 
     $sql = "INSERT INTO users (First_Name, Last_Name1, Last_Name2, Username, Password, Email, Phone, Gender, Profile_Pic, District_Id, Created_At, Role_Id) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     try {
         $stmt = $conn->prepare($sql);
-        
         $stmt->bind_param("sssssssssisi", $first_name, $last_name1, $last_name2, $username, $hashedPassword, $email, $phone, $gender, $url_pic, $district_id, $created_at, $role);
         
-        $stmt->execute();
+        // Ejecuta la consulta
+        if ($stmt->execute()) {
+            // Obtén el ID generado
+            $userId = $stmt->insert_id;
+        } else {
+            $userId = false; // En caso de error
+        }
         
         $stmt->close();
         $conn->close();
+        
+        return $userId;
     } catch (Exception $e) {
         echo $e->getMessage();
         return false;
     }
-    return true;
+}
+
+
+function updateUserPic($userId, $fileName) {
+    $conn = getConnection();
+    $sql = "UPDATE users SET Profile_Pic = ? WHERE Id_User = ?";
+
+    try {
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $fileName, $userId);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+    
+}
+
+
+function updateUserData($userId, $username, $firstName, $lastName1, $lastName2, $email, $phone, $gender, $password) {
+    $conn = getConnection();
+
+    // Verifica si hay un correo electrónico o nombre de usuario duplicado, excluyendo al usuario actual
+  
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE (Email = ? OR Username = ?) AND Id_User != ?");
+    $stmt->bind_param("ssi", $email, $username, $userId);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    // Si el correo electrónico o el nombre de usuario ya existen para otro usuario, devuelve false
+    if ($count > 0) {
+        return false; 
+    }
+    // Prepara la consulta de actualización según si se proporciona la contraseña
+    if (empty($password)) {
+        // Consulta sin contraseña
+        $query = "UPDATE users SET Username = '$username', First_Name = '$firstName', Last_Name1 = '$lastName1', Last_Name2 = '$lastName2', Email = '$email', Phone = '$phone', Gender = '$gender' WHERE Id_User = $userId";
+        echo "Consulta a ejecutar: $query\n";  // Imprime la consulta
+        $stmt = $conn->prepare("UPDATE users SET Username = ?, First_Name = ?, Last_Name1 = ?, Last_Name2 = ?, Email = ?, Phone = ?, Gender = ? WHERE Id_User = ?");
+        $stmt->bind_param("sssssssi", $username, $firstName, $lastName1, $lastName2, $email, $phone, $gender, $userId);
+    } else {
+        // Hash de la nueva contraseña
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        // Consulta con contraseña
+        $query = "UPDATE users SET Username = '$username', First_Name = '$firstName', Last_Name1 = '$lastName1', Last_Name2 = '$lastName2', Email = '$email', Phone = '$phone', Gender = '$gender', Password = '$hashedPassword' WHERE Id_User = $userId";
+        echo "Consulta a ejecutar: $query\n";  // Imprime la consulta
+        $stmt = $conn->prepare("UPDATE users SET Username = ?, First_Name = ?, Last_Name1 = ?, Last_Name2 = ?, Email = ?, Phone = ?, Gender = ?, Password = ? WHERE Id_User = ?");
+        $stmt->bind_param("ssssssssi", $username, $firstName, $lastName1, $lastName2, $email, $phone, $gender, $hashedPassword, $userId);
+    }
+
+    // Ejecuta la consulta de actualización y devuelve el resultado
+    return $stmt->execute();
 }
 
 

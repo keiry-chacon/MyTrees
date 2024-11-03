@@ -379,17 +379,16 @@ function getTreeById($id_tree): array {
 /*
 * Saves a specific tree into the database
 */
-function saveTree($tree): bool {
-
+function saveTree($tree) {
     $conn = getConnection();
 
-    // Asignar valores del array $specie a variables individuales
-    $Specie_Id         = $tree['specie_id'];
-    $Location          = $tree['location'];
-    $Size              = $tree['size'];
-    $StatusT           = $tree['statusT'];
-    $Price             = $tree['price'];
-    $Photo_Path        = $tree['photoPath'] ?? null; // Asegurarse de que la imagen puede ser opcional
+    // Asignar valores del array $tree a variables individuales
+    $Specie_Id  = $tree['specie_id'];
+    $Location   = $tree['location'];
+    $Size       = $tree['size'];
+    $StatusT    = $tree['statusT'];
+    $Price      = $tree['price'];
+    $Photo_Path = $tree['photoPath'] ?? null; // Asegurarse de que la imagen puede ser opcional
 
     // Incluir todos los campos en la consulta SQL
     $sql = "INSERT INTO trees (Specie_Id, Location, Size, StatusT, Price, Photo_Path) 
@@ -399,17 +398,36 @@ function saveTree($tree): bool {
         $stmt = $conn->prepare($sql);
         
         // Enlazar todos los parámetros
-        $stmt->bind_param("isisds", $Specie_Id, $Location, $Size, $StatusT, $Price, $Image_Path);
+        $stmt->bind_param("isisds", $Specie_Id, $Location, $Size, $StatusT, $Price, $Photo_Path);
         
         $stmt->execute();
+
+        // Obtener el ID del árbol recién insertado
+        $tree_id = $conn->insert_id;
+
+        $stmt->close();
+        $conn->close();
         
+        return $tree_id; // Retornar el ID del árbol
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return false; // Retornar false en caso de error
+    }
+}
+function updateTreePic($userId, $fileName) {
+    $conn = getConnection();
+    $sql = "UPDATE trees SET Photo_Path = ? WHERE Id_Tree = ?";
+
+    try {
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $fileName, $userId);
+        $stmt->execute();
         $stmt->close();
         $conn->close();
     } catch (Exception $e) {
         echo $e->getMessage();
-        return false;
     }
-    return true;
+    
 }
 
 

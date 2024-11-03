@@ -1,20 +1,16 @@
 <?php
 include '../inc/header_friend.php'; 
 require_once('../utils/friend/friend_functions.php');
+$uploads_folder_t = "../uploads_tree/";
 
-// Asegúrate de que el Id_User esté disponible
 $friendId = $_SESSION['Id_User'];
-
-// Obtener el Id_Tree de la URL
 $idTree = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-// Obtener todos los árboles del amigo
 $trees = getFriendsTrees($friendId);
 
 if (empty($trees)) {
     echo "No trees found for this user.";
 } else {
-    // Buscar el árbol específico en la lista de árboles
     $tree = null;
     foreach ($trees as $t) {
         if ($t['Id_Tree'] == $idTree) {
@@ -23,12 +19,11 @@ if (empty($trees)) {
         }
     }
 
-    // Verificar si se encontró el árbol
     if ($tree) {
         ?>
         <div class="product-detail-container">
             <div class="image-container">
-                <img src="<?php echo "../" . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>">
+                <img src="<?php echo $uploads_folder_t . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>">
             </div>
 
             <div class="product-info">

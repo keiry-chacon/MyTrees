@@ -3,7 +3,8 @@
 include '../inc/header_friend.php'; 
 require_once('../utils/friend/friend_functions.php');
 
-$treeId = $_GET['tree_id'];
+$treeId = $_GET['id'];
+$uploads_folder = "../uploads_tree/";
 
 $tree = getTreeDetailsById($treeId); 
 ?>
@@ -13,7 +14,7 @@ $tree = getTreeDetailsById($treeId);
     <!-- Resumen de la compra -->
     <div class="purchase-summary">
         <h2>Purchase Summary</h2>
-        <img src="<?php echo "../" . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>" class="tree-image">
+        <img src="<?php echo $uploads_folder . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>" class="tree-image">
         <p><strong>Tree Name:</strong> <?php echo $tree['Commercial_Name']; ?></p>
         <p><strong>Scientific Name:</strong> <?php echo $tree['Scientific_Name']; ?></p>
         <p><strong>Price:</strong> ₡<?php echo number_format($tree['Price'], 0, ',', '.'); ?></p>

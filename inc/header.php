@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-$user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+$user = isset($_SESSION['Username']) ? $_SESSION['Username'] : null;
 ?>
 
 <!DOCTYPE html>

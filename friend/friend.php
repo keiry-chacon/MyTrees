@@ -4,20 +4,26 @@ require_once('../utils/friend/friend_functions.php');
 if (isset($_SESSION['purchase_message'])) {
     echo "<div class='success-message'>" . $_SESSION['purchase_message'] . "</div>";
     
-    // Eliminar el mensaje de la sesión después de mostrarlo
     unset($_SESSION['purchase_message']);
 }
 $trees = getAllAvailableTrees();
 
-
+$uploads_folder = "../uploads_tree/";
 
 
 ?>
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome to Our Tree Garden</h1>
+        <p>Discover a variety of trees available for you. Make your choice and add life to your space!</p>
+        <a href="#available-trees" class="button-primary">View Available Trees</a>
+    </div>
+</div>
 
-<div class="product-container">
+<div id="available-trees" class="product-container">
     <div class="tree-cards">
         <?php foreach ($trees as $tree):
-            $photoTree = "../" . $tree['Photo_Path'];
+            $photoTree = $uploads_folder . $tree['Photo_Path'];
             $treeDetailUrl = "tree_detail.php?id=" . $tree['Id_Tree']; // URL de detalle del árbol
             ?>
             <a href="<?php echo $treeDetailUrl; ?>" class="card">
@@ -32,82 +38,8 @@ $trees = getAllAvailableTrees();
     </div>
 </div>
 
-<style>
-    .success-message {
-        background-color: #d4edda;
-        color: #155724;
-        padding: 15px;
-        border: 1px solid #c3e6cb;
-        border-radius: 5px;
-        width: fit-content;
-        margin: 20px auto;
-        text-align: center;
-        font-size: 1.1em;
-        animation: fadeOut 4s forwards; /* Para desaparecer después de 4 segundos */
-    }
 
-    @keyframes fadeOut {
-        0% { opacity: 1; }
-        100% { opacity: 0; display: none; }
-    }
-
-    .product-container {
-        text-align: center;
-        margin-top: 50px;
-    }
-
-    .tree-cards {
-        display: flex;
-        gap: 30px;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .card {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        width: 250px;
-        position: relative;
-        overflow: hidden;
-        transition: transform 0.3s;
-    }
-
-    .card:hover {
-        transform: scale(1.05);
-    }
-
-    .card img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-    }
-
-    .card-content h3 {
-        font-size: 1.3rem;
-        margin: 10px 0;
-    }
-
-    .card-content p {
-        margin: 5px 0;
-        color: #555;
-    }
-
-    .add-to-cart-btn {
-        background-color: #ff9800;
-        color: white;
-        border: none;
-        padding: 10px;
-        width: 100%;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .add-to-cart-btn:hover {
-        background-color: #e68a00;
-    }
-</style>
+<link rel="stylesheet" href="../css/friend.css">
 
 <script>
     // JavaScript para ocultar el mensaje después de 4 segundos

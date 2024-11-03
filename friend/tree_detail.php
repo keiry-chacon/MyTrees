@@ -1,23 +1,27 @@
 <?php
-session_start(); // Asegúrate de iniciar la sesión al comienzo
-include '../inc/header_friend.php'; 
+require_once ('../inc/header_friend.php'); 
 require_once('../utils/friend/friend_functions.php');
 
-$id = $_GET['id']; 
-$tree = getTreeDetailsById($id); 
+$uploads_folder = "../uploads_tree/";
 
-// Call addToCart when a button is pressed
-if (isset($_POST['add_to_cart'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $treeId = $_POST['tree_id'];
-    $response = addToCart($_SESSION['Id_User'], $treeId);
+    $userId = $_SESSION['Id_User'];
+    $response = addToCart($userId, $treeId);
     
-    // Retornar la respuesta JSON
-    echo $response;
-    exit;  
+    if ($response) {
+        header("Location: friend.php");
+        exit; // Asegúrate de llamar a exit después de header para detener la ejecución
+    } else {
+        echo "Error al agregar el árbol al carrito.";
+    }
+}
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $tree = getTreeDetailsById($id); 
 }
 ?>
 
-<!-- Asegúrate de incluir Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
@@ -91,7 +95,7 @@ if (isset($_POST['add_to_cart'])) {
 
 <div class="product-detail-container">
     <div class="image-container">
-        <img src="<?php echo "../" . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>">
+        <img src="<?php echo $uploads_folder . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>">
     </div>
 
     <div class="product-info">
@@ -103,12 +107,14 @@ if (isset($_POST['add_to_cart'])) {
         </div>
 
         <div class="buy-container">
-            <form method="post" id="cart-form">
+        <form method="POST">
                 <input type="hidden" name="tree_id" value="<?php echo $tree['Id_Tree']; ?>">
-                <button type="submit" name="add_to_cart" class="add-to-cart">
+                <button type="submit" class="add-to-cart" name="add_to_cart">
                     <i class="fas fa-shopping-cart"></i> Add to Cart
                 </button>
-            </form>
+        </form>
+
+
             <button class="buy-button" onclick="redirectToPurchaseForm(<?php echo $tree['Id_Tree']; ?>)">
                 <i class="fas fa-money-bill-wave"></i> Buy
             </button>
@@ -137,73 +143,19 @@ if (isset($_POST['add_to_cart'])) {
 
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var cartForm = document.getElementById('cart-form');
-        var addToCartButton = cartForm.querySelector('.add-to-cart');
-
-        addToCartButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevenir el envío del formulario
-            
-            // Usar AJAX para agregar al carrito
-            var formData = new FormData(cartForm);
-            fetch('', { // Enviar al mismo archivo
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Si el árbol fue agregado, actualiza la visualización del carrito
-                    displayCartItems(data.cartItems); // Actualiza los elementos del carrito
-                    alert(data.message); // Muestra mensaje de éxito
-                } else {
-                    // Si el árbol ya existe, muestra un mensaje
-                    alert(data.message); // Muestra mensaje de que ya existe
-                }
-                toggleCartPanel(); // Mostrar el carrito
-            })
-            .catch(error => console.error('Error:', error));
-        });
-    });
-
-    // Función para mostrar los elementos del carrito
-    function displayCartItems(cartItems) {
-        var cartItemsContainer = document.getElementById('cart-items');
-        cartItemsContainer.innerHTML = ''; // Limpiar contenido anterior
-
-        // Si necesitas un nuevo método para obtener cartItems
-        // Este es solo un ejemplo; ajusta según la estructura real de tus datos
-        cartItems.forEach(item => {
-            cartItemsContainer.innerHTML += `
-                <li class="cart-item">
-                    <span>${item.name}</span>
-                    <button onclick="removeFromCart(${item.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </li>`;
-        });
-
-        // Si el carrito está vacío, mostrar mensaje
-        if (cartItems.length === 0) {
-            cartItemsContainer.innerHTML = '<li>No items in cart.</li>';
-        }
-    }
-
     function toggleCartPanel() {
         var cartPanel = document.getElementById('cart-panel');
         cartPanel.style.display = cartPanel.style.display === 'none' || cartPanel.style.display === '' ? 'block' : 'none';
     }
 
-    // Función para eliminar el artículo del carrito (implementa esta lógica en PHP)
+    // Función para eliminar el artículo del carrito
     function removeFromCart(treeId) {
-        // Lógica para eliminar el artículo del carrito
         alert('This function needs to be implemented to remove item with ID: ' + treeId);
     }
 
     // Función para redirigir al formulario de compra
     function redirectToPurchaseForm(treeId) {
-        // Lógica para redirigir al formulario de compra
-        alert('Redirecting to purchase form for Tree ID: ' + treeId);
+        window.location.href = 'purchase_form.php?id=' + treeId;
     }
 </script>
 

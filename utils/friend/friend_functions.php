@@ -25,13 +25,14 @@ function getConnection(): bool|mysqli {
 }
 
 function savePurchase($treeId, $userId, $shippingLocation, $paymentMethod) {
-    $conn = getConnection(); // Asegúrate de que `$conn` sea tu conexión a la base de datos
+    $conn = getConnection(); 
 
     $stmt = $conn->prepare("INSERT INTO purchase (Tree_Id, User_Id, Shipping_Location, Payment_Method) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("iiss", $treeId, $userId, $shippingLocation, $paymentMethod);
 
     return $stmt->execute();
 }
+
 
 /*
 * Gets the users from the database
@@ -239,38 +240,52 @@ function getTreeInvaibDetailsById($Id): array {
     return $tree;
 }
 // Add to cart function
-function addToCart($userId, $treeId) {
+function addToCart($userId, $treeId, $quantity = 1, $status = 'active') {
     $conn = getConnection();
 
-    // Verificar si el árbol ya está en el carrito
-    $query = "SELECT * FROM cart WHERE User_Id = ? AND Tree_Id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("ii", $userId, $treeId);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Obtener el precio del árbol
+    $priceQuery = "SELECT Price FROM trees WHERE Id_Tree = ?";
+    $priceStmt = $conn->prepare($priceQuery);
+    $priceStmt->bind_param("i", $treeId);
+    $priceStmt->execute();
+    $priceResult = $priceStmt->get_result();
 
-    if ($result->num_rows == 0) {
-        // Si no existe, insertarlo
-        $insertQuery = "INSERT INTO cart (User_Id, Tree_Id) VALUES (?, ?)";
-        $insertStmt = $conn->prepare($insertQuery);
-        $insertStmt->bind_param("ii", $userId, $treeId);
-        $insertStmt->execute();
-    } else {
-        // Opcionalmente, puedes manejar el caso en que el árbol ya esté en el carrito
-        return json_encode(['success' => false, 'message' => 'This tree is already in your cart.']);
-    }
+    if ($priceResult->num_rows > 0) {
+        $tree = $priceResult->fetch_assoc();
+        $price = $tree['Price'];
+        $statusAvailable = 'active';
+
+        // Verificar si el árbol ya está en el carrito
+        $query = "SELECT * FROM cart WHERE User_Id = ? AND Tree_Id = ? AND Status = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("iis", $userId, $treeId, $statusAvailable);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {
+            // Si no existe, insertarlo
+            $insertQuery = "INSERT INTO cart (User_Id, Tree_Id, Quantity, Status, Created_At, Price) VALUES (?, ?, ?, ?, NOW(), ?)";
+            $insertStmt = $conn->prepare($insertQuery);
+            $insertStmt->bind_param("iiisi", $userId, $treeId, $quantity, $status, $price);
+            $insertStmt->execute();
+
+            return true;
+        } else {
+            return false;
+        }
+    } 
 }
-
 
 function getCartItemsForUser($userId) {
     $statusAvailable = 'active';
-     $dbConnection = getConnection(); // Asegúrate de tener la conexión a la base de datos
-     $query = "SELECT c.Tree_Id, c.Quantity, s.Commercial_Name, s.Scientific_Name, t.Photo_Path, t.Price
+    $dbConnection = getConnection(); // Asegúrate de tener la conexión a la base de datos
+
+    // Consulta para obtener los elementos del carrito
+    $query = "SELECT c.Tree_Id, c.Quantity, s.Commercial_Name, s.Scientific_Name, t.Photo_Path, t.Price
               FROM cart AS c 
               INNER JOIN Trees AS t ON c.Tree_Id = t.Id_Tree 
               INNER JOIN Species AS s ON t.Specie_Id = s.Id_Specie 
               WHERE c.User_Id = ? AND c.Status = ?"; // Asegúrate de definir qué significa "Status"
-    
 
     $stmt = mysqli_prepare($dbConnection, $query);
     mysqli_stmt_bind_param($stmt, "is", $userId, $statusAvailable);
@@ -285,3 +300,4 @@ function getCartItemsForUser($userId) {
     
     return $cartItems;
 }
+

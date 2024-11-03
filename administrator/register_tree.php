@@ -17,7 +17,7 @@ if(isset($_GET['error'])) {
       <hr class="my-4">
     </div>
 
-    <form method="post" action="../actions/administrator/add_tree.php">
+    <form method="post" action="../actions/administrator/add_tree.php" enctype="multipart/form-data">
 
         <?php if ($error_msg): ?>
             <div class="alert alert-danger" role="alert">

@@ -1,7 +1,7 @@
 <?php
 include('../../utils/administrator/admin_functions.php');
 
-$uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads/";
+$uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_tree/";
 
 $error_msg = '';
 
@@ -12,15 +12,13 @@ if ($_POST && isset($_POST['specie_id'])) {
   $tree['size']         = trim($_POST['size']);
   $tree['statusT']      = trim($_POST['statusT']);
   $tree['price']        = trim($_POST['price']);
+  $tree['photoPath']    = "default_tree.php";
 
-  $file_tmp = $_FILES["photoPath"]["tmp_name"];
-  $file_name = basename($_FILES["photoPath"]["name"]);
-  $target_file = $uploads_folder . $file_name;
-  move_uploaded_file($file_tmp,$target_file);
+  if (!empty($_FILES["photoPath"]["tmp_name"])) {
+    $file_tmp = $_FILES["photoPath"]["tmp_name"];
+    $is_custom_image = true;
+    }
 
-  $tree['photoPath'] = $file_name;
-
-  // Campos requeridos para validar
   $required_fields = ['specie_id', 'location', 'statusT', 'price'];
   foreach ($required_fields as $field) {
     if (empty($tree[$field])) {
@@ -29,9 +27,15 @@ if ($_POST && isset($_POST['specie_id'])) {
     }
   }
 
-  // Llamada a la función para guardar los datos de la especie
-  if (saveTree($tree)) {
+  if ($tree_id = saveTree($tree)) {
+    if($is_custom_image){
+    $file_name = $tree_id . '.' . pathinfo($_FILES["photoPath"]["name"], PATHINFO_EXTENSION);
+    $target_file = $uploads_folder . $file_name;
+    move_uploaded_file($file_tmp,$target_file);
+    updateTreePic($tree_id, $file_name);
     header("Location: ../../administrator/manage_trees.php");
+
+    }
   } else {
     header("Location: ../../administrator/register_tree.php?error=" . urlencode("Invalid tree data"));
   }

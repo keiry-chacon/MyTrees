@@ -2,16 +2,17 @@
 session_start();
 require('../utils/functions.php');
 
-// Verificar si el usuario ha iniciado sesión y si tiene el rol de administrador (role_id = 1)
-if (!isset($_SESSION['Username']) || $_SESSION['Role_id'] != 1) {
-    // Redirigir al usuario si no es administrador o no ha iniciado sesión
-    header('Location: /MyTrees/access_denied.php');  // Puedes redirigir a la página de amigos o a una página de error
-    exit(); // Termina la ejecución del script
+if (empty(isset($_SESSION['Username']))) {
+    header('Location: ../index.php'); 
+    exit(); 
+}
+elseif (!isset($_SESSION['Username']) || $_SESSION['Role_id'] != 1) {
+    header('Location: ../access_denied.php'); 
+    exit(); 
 }
 
 include '../inc/header_admin.php';
 
-// Obtener los datos necesarios para las estadísticas
 $genders = getFriends(); 
 $availableTreesCount = getAvailableTreesCount(); 
 $soldTreesCount = getSoldTreesCount(); 

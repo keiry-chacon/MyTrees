@@ -1,0 +1,93 @@
+.cart-panel {
+    position: fixed;
+    right: 10px;
+    top: 70px;
+    width: 320px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none;
+}
+
+/* Elemento de cada item en el carrito */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+/* Botón de eliminar */
+.remove-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: red;
+    font-size: 16px;
+}
+
+.remove-button:hover {
+    color: darkred;
+}
+
+/* Icono de perfil en la navbar */
+.navbar .navbar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar .navbar-brand img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.navbar .navbar-brand .small {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Icono de carrito en la navbar */
+.navbar .nav-link#cart-icon {
+    position: relative;
+}
+
+.navbar .nav-link#cart-icon .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff9800;
+    color: white;
+    font-size: 0.8rem;
+    padding: 3px 6px;
+    border-radius: 50%;
+}
+
+/* Estilos para el submenú del perfil */
+#profileSubmenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 160px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+#profileSubmenu a {
+    display: block;
+    color: #333;
+    padding: 8px;
+    text-decoration: none;
+}
+
+#profileSubmenu a:hover {
+    background-color: #f8f9fa;
+}
