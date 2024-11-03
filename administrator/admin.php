@@ -22,18 +22,15 @@ $soldTreesCount = getSoldTreesCount();
     <div class="statistics" style="display: flex; justify-content: space-between; align-items: flex-start;">
         <div class="stat" style="flex: 1; margin-right: 20px;">
             <div style="display: flex; align-items: center;">
-                <canvas id="genderChart" width="300" height="300"></canvas>
+                <canvas id="genderChart" width="350" height="300"></canvas>
                 <div style="margin-left: 20px;">
-                    <h3>Detalles:</h3>
-                    <p><strong>Femenino:</strong> <?php echo $genders['F']; ?></p>
-                    <p><strong>Masculino:</strong> <?php echo $genders['M']; ?></p>
-                    <p><strong>Otro:</strong> <?php echo $genders['O']; ?></p>
+                    
                 </div>
             </div>
         </div>
         
         <div class="stat" style="flex: 1;">
-            <canvas id="treesComparisonChart" width="400" height="400"></canvas>
+            <canvas id="treesComparisonChart" width="400" height="300"></canvas>
         </div>
     </div>
 </main>
@@ -47,44 +44,52 @@ const soldTreesCount = <?php echo $soldTreesCount; ?>;
 
 const ctxComparison = document.getElementById('treesComparisonChart').getContext('2d');
 const treesComparisonChart = new Chart(ctxComparison, {
-    type: 'bar', // Tipo de gráfico: barras
+    type: 'bar',
     data: {
-        labels: ['Árboles'], // Etiqueta para el eje X
+        labels: ['Árboles'],
         datasets: [
             {
                 label: 'Árboles Disponibles',
-                data: [availableTreesCount], // Datos de árboles disponibles
-                backgroundColor: 'rgba(0, 255, 0, 0.5)', // Color de fondo para disponibles
-                borderColor: 'rgba(0, 255, 0, 1)', // Color del borde para disponibles
-                borderWidth: 2 // Ancho del borde
+                data: [availableTreesCount],
+                backgroundColor: 'rgba(0, 255, 0, 0.5)',
+                borderColor: 'rgba(0, 255, 0, 1)',
+                borderWidth: 2
             },
             {
                 label: 'Árboles Vendidos',
-                data: [soldTreesCount], // Datos de árboles vendidos
-                backgroundColor: 'rgba(255, 0, 0, 0.5)', // Color de fondo para vendidos
-                borderColor: 'rgba(255, 0, 0, 1)', // Color del borde para vendidos
-                borderWidth: 2 // Ancho del borde
+                data: [soldTreesCount],
+                backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                borderColor: 'rgba(255, 0, 0, 1)',
+                borderWidth: 2
             }
         ]
     },
     options: {
-        responsive: true, // Gráfico adaptable a diferentes tamaños de pantalla
+        responsive: true,
         plugins: {
             legend: {
-                position: 'top', // Posición de la leyenda
+                position: 'top',
+                labels: {
+                    color: '#0a0a0a' // Color blanco para las etiquetas de la leyenda
+                }
             },
             title: {
                 display: true,
-                text: 'Comparación de Árboles Disponibles y Vendidos' // Título del gráfico
+                text: 'Comparación de Árboles Disponibles y Vendidos',
+                color: '#0a0a0a' // Color blanco para el título
             }
         },
         scales: {
             y: {
-                beginAtZero: true, // El eje Y comienza en 0
+                beginAtZero: true,
+                ticks: {
+                    color: '#0a0a0a' // Color blanco para las etiquetas del eje Y
+                }
             }
         }
     }
 });
+
 </script>
 
 <script>
@@ -120,11 +125,15 @@ const treesComparisonChart = new Chart(ctxComparison, {
             responsive: true, // Gráfico adaptable
             plugins: {
                 legend: {
-                    position: 'top', // Posición de la leyenda
+                    position: 'top', 
+                    labels: {
+                    color: '#0a0a0a' // Color blanco para las etiquetas de la leyenda
+                }
                 },
                 title: {
                     display: true,
-                    text: 'Distribución de Amigos por Género' // Título del gráfico
+                    text: 'Distribución de Amigos por Género',
+                    color: '#0a0a0a'
                 }
             }
         }
@@ -138,6 +147,5 @@ const treesComparisonChart = new Chart(ctxComparison, {
         justify-content: flex-start; /* Alinea los íconos al inicio */
     }
 </style>
-<link rel="stylesheet" href="/css/graphics.css"> 
+<link rel="stylesheet" href="../css/dashboard.css"> 
 
-<?php include '../inc/footer.php'; ?>

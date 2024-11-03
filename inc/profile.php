@@ -11,7 +11,7 @@ $userData = getUserData($username);
 if (!$userData) {
     die("No se encontró el usuario.");
 }
-$profileImage = $uploads_folder . $userData['Profile_Pic'];
+$profileImage = $uploads_folder . $userData['Profile_Pic'] . '?' . time();
 $username = $userData['Username'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -43,20 +43,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['username'])) {
         $newUsername = $_POST['username'];
-        $firstName = $_POST['first_name'];
-        $lastName1 = $_POST['last_name1'];
-        $lastName2 = $_POST['last_name2'];
-        $email     = $_POST['email']; 
-        $phone     = $_POST['phone'];
-        $gender    = $_POST['gender'];
-        $password  = $_POST['password'];
+        $firstName   = $_POST['first_name'];
+        $lastName1   = $_POST['last_name1'];
+        $lastName2   = $_POST['last_name2'];
+        $email       = $_POST['email']; 
+        $phone       = $_POST['phone'];
+        $gender      = $_POST['gender'];
+        $password    = $_POST['password'];
 
         $updateSuccess = updateUserData($_SESSION['Id_User'], $newUsername, $firstName, $lastName1, $lastName2, $email, $phone, $gender, $password);
-        $_SESSION['Username']     = $newUsername;
 
     }
 
     if ($updateSuccess) {
+        $_SESSION['Username']     = $newUsername;
         $userRole = $_SESSION['Role_id']; 
         $adminRole = 1;
         $friendRole = 2;

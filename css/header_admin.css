@@ -1,0 +1,323 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    background-color: #f5f5f5; /* Fondo claro */
+    color: #333333; /* Color de texto oscuro */
+}
+.cart-panel {
+    position: fixed;
+    right: 10px;
+    top: 70px;
+    width: 320px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    display: none;
+}
+
+/* Elemento de cada item en el carrito */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+/* Botón de eliminar */
+.remove-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: red;
+    font-size: 16px;
+}
+
+.remove-button:hover {
+    color: darkred;
+}
+
+/* Icono de perfil en la navbar */
+.navbar .navbar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar .navbar-brand img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.navbar .navbar-brand .small {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Icono de carrito en la navbar */
+.navbar .nav-link#cart-icon {
+    position: relative;
+}
+
+.navbar .nav-link#cart-icon .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff9800;
+    color: white;
+    font-size: 0.8rem;
+    padding: 3px 6px;
+    border-radius: 50%;
+}
+
+/* Estilos para el submenú del perfil */
+#profileSubmenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 160px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+#profileSubmenu a {
+    display: block;
+    color: #333;
+    padding: 8px;
+    text-decoration: none;
+}
+
+#profileSubmenu a:hover {
+    background-color: #f8f9fa;
+}
+.navbar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    background-color: #367039; /* Verde naturaleza */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: width 0.3s ease;
+    transform: translateX(-100%);
+    animation: slideIn 0.5s forwards;
+}
+
+/* Resto de tu código CSS permanece igual */
+
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+    }
+}
+
+.navbar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.navbar-brand .small {
+    margin-top: 10px;
+    font-size: 1em;
+    color: #ffffff;
+}
+
+.navbar-brand img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffffff;
+    animation: bounceIn 1s ease;
+}
+
+.navbar-brand img:hover {
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.navbar-nav {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.nav-item {
+    width: 100%;
+}
+
+.nav-link {
+    color: #b0b0b0;
+    font-size: 1.1em;
+    padding: 15px 20px;
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #0e630e;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.nav-link:hover {
+    background-color: #333;
+    color: #ffffff;
+}
+
+.nav-link.active {
+    background-color: #444;
+    color: #ffffff;
+}
+
+.nav-link:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+#profileSubmenu {
+    position: absolute;
+    top: 130px;
+    left: 260px;
+    display: none;
+    background-color: #181818;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+#profileSubmenu .dropdown-item {
+    color: #b0b0b0;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s ease;
+}
+
+#profileSubmenu .dropdown-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    transition: left 0.4s ease;
+    z-index: -1;
+}
+
+#profileSubmenu .dropdown-item:hover {
+    color: #ffffff;
+}
+
+#profileSubmenu .dropdown-item:hover::after {
+    left: 0;
+}
+
+.chart-container {
+    background-color: #2a2a2a;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.hamburger {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+    color: #ffffff;
+    font-size: 1.5em;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.hamburger.active {
+    transform: rotate(90deg);
+}
+
+.hamburger.active ~ .navbar {
+    width: 0;
+}
+
+.hamburger.active ~ .main-content {
+    margin-left: 0;
+}
+
+.navbar:hover {
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.8);
+    transition: box-shadow 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 10px 0;
+        box-shadow: none;
+    }
+
+    .navbar-nav {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    #profileSubmenu {
+        top: auto;
+        left: auto;
+        position: relative;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}

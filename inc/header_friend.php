@@ -4,7 +4,7 @@ require('../utils/friend/friend_functions.php');
 $uploads_folder = "../uploads_user/";
 $uploads_folder_t = "../uploads_tree/";
 
-$profilepic = $uploads_folder . ($_SESSION['ProfileImage']);
+$profilepic = $uploads_folder . ($_SESSION['ProfileImage']) . '?' . time();
 $cartItems = getCartItemsForUser($_SESSION['Id_User']);
 
 // Mostrar el carrito si hay elementos
@@ -15,7 +15,7 @@ function displayCartItems($cartItems, $uploads_folder_t) {
         foreach ($cartItems as $cartItem) {
             echo "<li class='cart-item'>";
             echo "<img src='" . $uploads_folder_t . htmlspecialchars($cartItem['Photo_Path']) . "' alt='Imagen del Árbol' style='width: 50px; height: auto;'>";
-            echo "<span>" . htmlspecialchars($cartItem['Commercial_Name']) . " - $" . htmlspecialchars($cartItem['Price']) . "</span>"; // Mostrar nombre y precio
+            echo "<span>" . htmlspecialchars($cartItem['Commercial_Name']) . " - $" . htmlspecialchars($cartItem['Price']) . "</span>"; 
             echo "<button onclick='removeFromCart(" . htmlspecialchars($cartItem['Tree_Id']) . ")' class='remove-button'><i class='fas fa-trash'></i></button>";
             echo "</li>";
         }
@@ -37,11 +37,20 @@ displayCartItems($cartItems,$uploads_folder_t);
             <div class="small text-center"><?php echo htmlspecialchars($_SESSION['Username']); ?></div>
         </a>
         <div class="collapse navbar-collapse">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item"><a class="nav-link" href="../friend/friend.php">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="../friend/friends_trees.php">My Trees</a></li>
-            </ul>
-        </div>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="../friend/friend.php">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="../friend/friends_trees.php">
+                <i class="fas fa-tree"></i> My Trees
+            </a>
+        </li>
+    </ul>
+</div>
+
 
         <!-- Icono de carrito -->
         <div class="navbar-nav ml-auto">
