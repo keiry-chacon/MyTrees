@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 include 'header.php';
 $uploads_folder = "../uploads_user/";

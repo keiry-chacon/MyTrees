@@ -7,7 +7,6 @@ $uploads_folder_t = "../uploads_tree/";
 $profilepic = $uploads_folder . ($_SESSION['ProfileImage']) . '?' . time();
 $cartItems = getCartItemsForUser($_SESSION['Id_User']);
 
-// Mostrar el carrito si hay elementos
 function displayCartItems($cartItems, $uploads_folder_t) {
     if (!empty($cartItems)) {
         echo "<div id='cart-panel' class='cart-panel'>";
@@ -26,79 +25,97 @@ function displayCartItems($cartItems, $uploads_folder_t) {
 }
 
 // Mostrar el carrito
-displayCartItems($cartItems,$uploads_folder_t);
+displayCartItems($cartItems, $uploads_folder_t);
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand d-flex flex-column align-items-center" href="#" id="profileMenuToggle">
-            <img src="<?php echo htmlspecialchars($profilepic); ?>" alt="Profile Image" class="img-fluid rounded-circle" style="width: 50px; height: 50px;">
-            <div class="small text-center"><?php echo htmlspecialchars($_SESSION['Username']); ?></div>
-        </a>
-        <div class="collapse navbar-collapse">
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="../friend/friend.php">
-                <i class="fas fa-home"></i> Home
+<body class="font-sans bg-gray-100">
+    <!-- Sidebar -->
+    <header>
+        <nav class="fixed top-0 left-0 h-full w-64 bg-gray-300 shadow-lg flex flex-col p-4 z-50"> <!-- Asegúrate que el z-index es alto -->
+            <a href="#" id="profile-link" class="flex flex-col items-center mb-8 p-4 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
+                <img src="<?php echo htmlspecialchars($profilepic); ?>" alt="Profile Image" class="w-20 h-20 rounded-full border-4 border-white mb-3 object-cover">
+                <div class="text-center font-semibold text-gray-700"><?php echo htmlspecialchars($_SESSION['Username']); ?></div>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="../friend/friends_trees.php">
-                <i class="fas fa-tree"></i> My Trees
-            </a>
-        </li>
-    </ul>
+            <div id="profile-submenu" class="hidden flex-col p-4 space-y-2">
+                <a href="../inc/profile.php?username=<?php echo urlencode($_SESSION['Username']); ?>" class="text-gray-800 hover:text-white hover:bg-green-500 px-4 py-2 rounded flex items-center space-x-2">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="../actions/logout.php" class="text-gray-800 hover:text-white hover:bg-green-500 px-4 py-2 rounded flex items-center space-x-2">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
+                </a>
+            </div>
+
+            <!-- Navigation Links -->
+            <ul class="space-y-4">
+                <li>
+                    <a href="../friend/friend.php" class="flex items-center px-4 py-2 text-gray-800 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
+                        <i class="fas fa-home mr-3"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a href="../friend/friends_trees.php" class="flex items-center px-4 py-2 text-gray-800 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
+                        <i class="fas fa-tree mr-3"></i> My Trees
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Cart Icon -->
+            <div class="relative mt-auto pt-6">
+                <a href="#" id="cart-icon" class="flex items-center justify-center text-gray-800 hover:text-white hover:bg-green-500 transition duration-300 px-4 py-2 rounded-lg" title="Cart" onclick="toggleCartPanel(event)">
+                    <i class="fas fa-shopping-cart mr-2"></i>
+                    <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs px-2"><?php echo count($cartItems); ?></span>
+                </a>
+                <div id="cart-panel" class="absolute top-0 left-16 mt-2 w-64 bg-white shadow-lg rounded-lg p-4 hidden">
+                    <h4 class="text-lg font-semibold mb-2">Your Cart</h4>
+                    <ul id="cart-items" class="space-y-2"></ul>
+                    <button id="checkout-btn" class="bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600 mt-2">Buy Now</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="ml-64 p-8">
+    <?php displayCartItems($cartItems, $uploads_folder_t); ?>
 </div>
 
-
-        <!-- Icono de carrito -->
-        <div class="navbar-nav ml-auto">
-            <a class="nav-link" href="#" id="cart-icon" title="Carrito" onclick="toggleCartPanel(event)">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="badge badge-danger" id="cart-count"><?php echo count($cartItems); ?></span> <!-- Contador de carrito -->
-            </a>
-        </div>
-
-        <!-- Submenú -->
-        <div id="profileSubmenu" class="dropdown-menu" aria-labelledby="profileMenuToggle" style="display: none;">
-            <a class="dropdown-item" href="../inc/profile.php?username=<?php echo urlencode($_SESSION['Username']); ?>">Profile</a>
-            <a class="dropdown-item" href="../actions/logout.php">Log Out</a>
-        </div>
-    </nav>
-
-    <!-- Panel del carrito -->
-    <div id="cart-panel" class="cart-panel" style="display: none;">
-        <h4>Your Cart</h4>
-        <ul id="cart-items"></ul>
-        <button id="checkout-btn" class="btn btn-primary">Buy Now</button>
-    </div>
-</header>
-
+<!-- Cart Panel -->
+<div id="cart-panel" class="absolute top-0 left-16 mt-2 w-64 bg-white shadow-lg rounded-lg p-4 hidden">
+    <h4 class="text-lg font-semibold mb-2">Your Cart</h4>
+    <ul id="cart-items" class="space-y-2">
+        <?php displayCartItems($cartItems, $uploads_folder_t); ?>
+    </ul>
+    <button id="checkout-btn" class="bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600 mt-2">Buy Now</button>
+</div>
+    
 <script>
-    document.getElementById('profileMenuToggle').addEventListener('click', function(event) {
-        event.preventDefault();
-        var submenu = document.getElementById('profileSubmenu');
-        submenu.style.display = submenu.style.display === 'none' || submenu.style.display === '' ? 'block' : 'none';
-    });
+    window.onscroll = function() {
+        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        document.getElementById('progress-bar').style.width = scrolled + "%"; // Usa el id correcto
+    };
 
-    window.addEventListener('click', function(event) {
-        var submenu = document.getElementById('profileSubmenu');
-        if (!event.target.closest('#profileMenuToggle') && !event.target.closest('#profileSubmenu')) {
-            submenu.style.display = 'none';
-        }
+    document.getElementById('profile-link').addEventListener('click', function(event) {
+        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+        const submenu = document.getElementById('profile-submenu');
+        submenu.classList.toggle('hidden'); // Alternar visibilidad usando clases de Tailwind
     });
 
     function toggleCartPanel(event) {
-        event.preventDefault();
-        var cartPanel = document.getElementById('cart-panel');
-        cartPanel.style.display = cartPanel.style.display === 'none' || cartPanel.style.display === '' ? 'block' : 'none';
-    }
+    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+    const cartPanel = document.getElementById('cart-panel');
+    // Alternar visibilidad
+    cartPanel.classList.toggle('hidden'); // Usar clases de Tailwind para mostrar/ocultar
+}
 
     // Función para eliminar un artículo del carrito
     function removeFromCart(treeId) {
         if (confirm('¿Estás seguro de que deseas eliminar este artículo del carrito?')) {
-            // Realiza la llamada a PHP para eliminar el artículo del carrito y cambiar el estado a 'abandoned'
             fetch('../remove_from_cart.php', {
                 method: 'POST',
                 headers: {
@@ -109,8 +126,6 @@ displayCartItems($cartItems,$uploads_folder_t);
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                   
-                    changeCartStateToAbandoned(); // Llama a la función para cambiar el estado
                     location.reload(); // Recargar la página para actualizar el carrito
                 } else {
                     alert(data.message);
@@ -122,5 +137,3 @@ displayCartItems($cartItems,$uploads_folder_t);
 </script>
 
 <link rel="stylesheet" href="../css/header_friend.css">
-
-

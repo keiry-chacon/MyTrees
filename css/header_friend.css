@@ -1,273 +1,105 @@
-/* Body */
-body {
-    font-family: Arial, sans-serif;
+/* Reset básico */
+* {
     margin: 0;
     padding: 0;
-    display: flex;
-    background-color: #f5f5f5; /* Fondo claro */
-    color: #333333; /* Color de texto oscuro */
+    box-sizing: border-box;
 }
 
-/* Navbar */
-.navbar {
-    height: 100vh; /* Full height */
-    width: 250px; /* Width of the sidebar */
-    position: fixed; /* Fix the navbar to the left */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+nav {
+    width: 16rem; /* 64px * 4 */
+    transition: background-color 0.3s;
+}
+
+#profile-link:hover {
+    cursor: pointer;
+}
+
+/* Submenú del perfil */
+#profile-submenu a {
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem; /* rounded-lg */
+}
+
+#profile-submenu a:hover {
+    background-color: #38a169; /* hover color para el submenú del perfil */
+    color: #fff;
+}
+
+/* Panel del carrito */
+#cart-panel {
+    width: 16rem;
+    display: none; /* Panel oculto por defecto */
+    z-index: 10; /* Asegurar que esté encima */
+    position: absolute; /* Asegurar que se coloque sobre otros elementos */
+}
+
+/* Barra de progreso */
+#progress-bar {
+    height: 4px;
+    background-color: #3182ce; /* Azul para la barra de progreso */
+    position: fixed; /* Fijo para que se quede en la parte superior */
     top: 0;
-    left: 0; /* Align to the left */
-    display: flex;
-    flex-direction: column; /* Vertical layout */
-    align-items: center; /* Center content horizontally */
-    padding-top: 20px;
-    background-color: #367039; /* Verde naturaleza */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-    transition: width 0.3s ease; /* Smooth transition */
-    transform: translateX(0); /* No initial transform */
-    animation: slideIn 0.5s forwards; /* Slide-in animation */
-}
-
-/* Navbar Brand */
-.navbar-brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-}
-
-.navbar-brand img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%; /* Circular avatar */
-    object-fit: cover;
-    border: 3px solid #ffffff; /* White border around the avatar */
-    animation: bounceIn 1s ease; /* Bounce-in animation */
-}
-
-.navbar-brand .small {
-    margin-top: 10px;
-    font-size: 1em;
-    color: #ffffff; /* Text color */
-}
-
-.navbar-brand img:hover {
-    animation: bounce 0.5s ease; /* Animation on hover */
-}
-
-/* Navigation Items */
-.navbar-nav {
-    margin-top: 30px;
-    width: 100%; /* Full width for nav items */
-}
-
-.nav-item {
-    width: 100%; /* Full width for nav items */
-}
-
-.nav-link {
-    color: #b0b0b0; /* Link color */
-    font-size: 1.1em; /* Font size */
-    padding: 15px 20px; /* Padding for links */
-    display: block; /* Block display */
-    width: 100%; /* Full width */
-    text-decoration: none; /* Remove underline */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Transition for background and color */
-    position: relative; /* Position for pseudo-element */
-}
-
-.nav-link::before {
-    content: '';
-    position: absolute;
     left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px; /* Underline height */
-    background-color: #0e630e; /* Underline color */
-    transform: scaleX(0); /* Initial scale */
-    transform-origin: right; /* Origin of transform */
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Transition effect */
+    width: 0;
+    z-index: 1000; /* Asegura que esté encima de otros elementos */
 }
 
-.nav-link:hover {
-    background-color: #333; /* Background color on hover */
-    color: #ffffff; /* Text color on hover */
+/* Animaciones */
+#cart-icon:hover, #profile-link:hover {
+    transition: transform 0.2s;
+    transform: scale(1.05);
 }
 
-.nav-link.active {
-    background-color: #444; /* Background color for active link */
-    color: #ffffff; /* Text color for active link */
+/* Alinear y centrar el contenido principal al lado del sidebar */
+.ml-64 {
+    margin-left: 16rem;
 }
 
-.nav-link:hover::before {
-    transform: scaleX(1); /* Expand the underline on hover */
-    transform-origin: left; /* Change origin to left */
+#checkout-btn {
+    transition: background-color 0.3s;
 }
 
-/* Cart Panel */
-.cart-panel {
-    position: fixed; /* Fixed position for the cart */
-    right: 10px; /* Position from the right */
-    top: 70px; /* Position from the top */
-    width: 320px; /* Width of the cart panel */
-    background: white; /* Background color */
-    border: 1px solid #ddd; /* Border */
-    padding: 15px; /* Padding inside the cart */
-    z-index: 1000; /* Ensure it's on top */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Shadow for depth */
-    display: none; /* Hidden by default */
+#checkout-btn:hover {
+    background-color: #2c5282;
 }
 
-/* Cart Item */
+/* Opcional: Estilo personalizado para botones */
+button {
+    border: none;
+    cursor: pointer;
+}
+
+/* Ocultar el menú hamburguesa en desktop */
+@media (min-width: 768px) {
+    .hamburger-menu {
+        display: none;
+    }
+}
+
+#cart-panel {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
 .cart-item {
-    display: flex; /* Flex layout for items */
-    align-items: center; /* Center vertically */
-    justify-content: space-between; /* Space between items */
-    margin: 10px 0; /* Margin around items */
-}
-
-/* Remove Button */
-.remove-button {
-    border: none; /* No border */
-    background: none; /* No background */
-    cursor: pointer; /* Pointer cursor */
-    color: red; /* Red color for delete */
-    font-size: 16px; /* Font size */
-}
-
-.remove-button:hover {
-    color: darkred; /* Dark red on hover */
-}
-
-/* Profile Submenu */
-#profileSubmenu {
-    position: absolute; /* Absolute positioning */
-    top: 130px; /* Position from the top */
-    left: 260px; /* Position from the left */
-    display: none; /* Hidden by default */
-    background-color: #181818; /* Background color */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for depth */
-}
-
-#profileSubmenu a {
-    display: block; /* Block display */
-    color: #333; /* Text color */
-    padding: 8px; /* Padding */
-    text-decoration: none; /* No underline */
-}
-
-#profileSubmenu a:hover {
-    background-color: #f8f9fa; /* Light background on hover */
-}
-
-/* Main Content */
-.main-content {
-    margin-left: 250px; /* Space for the navbar */
-    padding: 20px; /* Padding for main content */
-    transition: margin-left 0.3s ease; /* Smooth transition for margin */
-}
-
-/* Hero Section */
-.hero-section {
-    background: url('../images/hero-background.jpg') no-repeat center center/cover;
-    height: 400px; /* Altura de la sección hero */
     display: flex;
-    justify-content: center;
     align-items: center;
-    color: #fff; /* Texto en blanco */
-    text-align: center;
+    justify-content: space-between;
 }
 
-.hero-content h1 {
-    font-size: 2.5em; /* Tamaño del título */
+.cart-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
-.hero-content p {
-    font-size: 1.2em; /* Tamaño del texto */
+.remove-button {
+    cursor: pointer;
 }
 
-/* Product Container */
-.product-container {
-    padding: 20px;
-}
-
-.tree-cards {
-    display: flex;
-    flex-wrap: wrap; /* Permitir que las tarjetas se envuelvan */
-    justify-content: space-between; /* Espacio entre las tarjetas */
-}
-
-.card {
-    background: #fff; /* Fondo blanco */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
-    margin: 10px; /* Margen entre tarjetas */
-    text-decoration: none; /* Sin subrayado */
-    width: calc(33.33% - 20px); /* Tres tarjetas por fila */
-    transition: transform 0.2s; /* Efecto de transformación */
-}
-
-.card img {
-    width: 100%; /* Ancho completo */
-    border-top-left-radius: 8px; /* Bordes redondeados en la parte superior */
-    border-top-right-radius: 8px; /* Bordes redondeados en la parte superior */
-}
-
-.card-content {
-    padding: 15px; /* Padding interno */
-}
-
-.card:hover {
-    transform: scale(1.05); /* Escala al pasar el mouse */
-}
-
-/* Animations */
-@keyframes slideIn {
-    to {
-        transform: translateX(0); /* Slide into view */
-    }
-}
-
-@keyframes bounceIn {
-    0% { transform: scale(0.5); opacity: 0; }
-    60% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); }
-}
-
-@keyframes bounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .navbar {
-        width: 100%; /* Full width on mobile */
-        height: auto; /* Auto height */
-        position: relative; /* Relative position */
-        padding: 10px 0; /* Padding */
-        box-shadow: none; /* No shadow */
-    }
-
-    .navbar-nav {
-        flex-direction: row; /* Horizontal layout */
-        justify-content: space-around; /* Space evenly */
-    }
-
-    .main-content {
-        margin-left: 0; /* No margin on mobile */
-    }
-
-    #profileSubmenu {
-        top: auto; /* Reset top */
-        left: auto; /* Reset left */
-        position: relative; /* Reset position */
-    }
-
-    .tree-cards {
-        flex-direction: column; /* Vertical layout on mobile */
-    }
-
-    .card {
-        width: 100%; /* Full width for cards */
-        margin: 10px 0; /* Margin around cards */
-    }
-}
