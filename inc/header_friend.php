@@ -24,16 +24,14 @@ function displayCartItems($cartItems, $uploads_folder_t) {
     }
 }
 
-// Mostrar el carrito
 displayCartItems($cartItems, $uploads_folder_t);
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
 <body class="font-sans bg-gray-100">
-    <!-- Sidebar -->
     <header>
-        <nav class="fixed top-0 left-0 h-full w-64 bg-gray-300 shadow-lg flex flex-col p-4 z-50"> <!-- Asegúrate que el z-index es alto -->
+        <nav class="fixed top-0 left-0 h-full w-64 bg-gray-300 shadow-lg flex flex-col p-4 z-50"> 
             <a href="#" id="profile-link" class="flex flex-col items-center mb-8 p-4 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
                 <img src="<?php echo htmlspecialchars($profilepic); ?>" alt="Profile Image" class="w-20 h-20 rounded-full border-4 border-white mb-3 object-cover">
                 <div class="text-center font-semibold text-gray-700"><?php echo htmlspecialchars($_SESSION['Username']); ?></div>
@@ -49,7 +47,6 @@ displayCartItems($cartItems, $uploads_folder_t);
                 </a>
             </div>
 
-            <!-- Navigation Links -->
             <ul class="space-y-4">
                 <li>
                     <a href="../friend/friend.php" class="flex items-center px-4 py-2 text-gray-800 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
@@ -63,7 +60,6 @@ displayCartItems($cartItems, $uploads_folder_t);
                 </li>
             </ul>
             
-            <!-- Cart Icon -->
             <div class="relative mt-auto pt-6">
                 <a href="#" id="cart-icon" class="flex items-center justify-center text-gray-800 hover:text-white hover:bg-green-500 transition duration-300 px-4 py-2 rounded-lg" title="Cart" onclick="toggleCartPanel(event)">
                     <i class="fas fa-shopping-cart mr-2"></i>
@@ -78,12 +74,10 @@ displayCartItems($cartItems, $uploads_folder_t);
         </nav>
     </header>
 
-    <!-- Main Content -->
     <div class="ml-64 p-8">
     <?php displayCartItems($cartItems, $uploads_folder_t); ?>
 </div>
 
-<!-- Cart Panel -->
 <div id="cart-panel" class="absolute top-0 left-16 mt-2 w-64 bg-white shadow-lg rounded-lg p-4 hidden">
     <h4 class="text-lg font-semibold mb-2">Your Cart</h4>
     <ul id="cart-items" class="space-y-2">
