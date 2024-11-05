@@ -1,71 +1,81 @@
 <?php
-
 /*
 * Shows friends list
 */
 
-  include('../utils/administrator/admin_functions.php');
+include('../utils/administrator/admin_functions.php');
 
-  $uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_user/";
+$uploads_folder = $_SERVER["DOCUMENT_ROOT"] . "/uploads_user/";
 
-  $users = getUsers();
-  $error_msg = '';
-  if(isset($_GET['error'])) {
+$users = getUsers();
+$error_msg = '';
+if (isset($_GET['error'])) {
     $error_msg = $_GET['error'];
-  }
+}
 ?>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<link rel="stylesheet" href="../css/styles_manage_specie.css"> 
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <script src="https://kit.fontawesome.com/12d578a4cd.js" crossorigin="anonymous"></script>
 
-<?php require('../inc/header_admin.php')?>
-<div class="container mt-5">
-    <div class="jumbotron text-center">
-      <h1 class="display-4">Manage Friends</h1>
-      <p class="lead">Here is a list of all registered friends.</p>
-      <hr class="my-4">
-      <a href="../administrator/admin.php" class="btn btn-primary">Go to Home</a>
+<?php require('../inc/header_admin.php') ?>
+
+<div class="container mx-auto mt-10 text-center px-4">
+    <div class="bg-white shadow-lg rounded-lg p-4 max-w-4xl mx-auto mb-5">
+        <div class="text-center">
+            <h1 class="text-6xl font-bold">Manage Friends</h1>
+            <p class="text-gray-600 mt-2">List of all registered friends</p>
+            <a href="../administrator/admin.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-3 inline-block">Go to Home</a>
+        </div>
     </div>
 
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>Profile Picture</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-          <?php
-              if (!empty($users)) {
-                foreach ($users as $user) { ?>
+    <?php if ($error_msg) : ?>
+        <div class="bg-red-500 text-white text-center py-2 rounded max-w-4xl mx-auto">
+            <?= htmlspecialchars($error_msg) ?>
+        </div>
+    <?php endif; ?>
+
+    <div class="mt-6 max-w-4xl mx-auto overflow-hidden">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden w-full">
+            <thead>
+                <tr class="bg-blue-200 text-gray-700">
+                    <th scope="col" class="px-6 py-3 text-center">Profile Picture</th>
+                    <th scope="col" class="px-6 py-3">First Name</th>
+                    <th scope="col" class="px-6 py-3">Last Name</th>
+                    <th scope="col" class="px-6 py-3">Username</th>
+                    <th scope="col" class="px-6 py-3">Email</th>
+                    <th scope="col" class="px-6 py-3 text-center">View Trees</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($users)) : ?>
+                    <?php foreach ($users as $user) : ?>
+                        <tr class="border-b">
+                            <td class="text-center px-6 py-4">
+                                <?php if (!empty($user['Photo_Path'])) : ?>
+                                    <img src="<?= htmlspecialchars($uploads_folder . $user['Photo_Path']) ?>" alt="Profile Picture" class="rounded-full w-12 h-12 mx-auto">
+                                <?php else : ?>
+                                    <span class="text-gray-400">No Image</span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($user['First_Name']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($user['Last_Name1']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($user['Username']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($user['Email']) ?></td>
+                            <td class="px-6 py-4 text-center">
+                                <a href="friend_trees.php?id=<?= $user['Id_User'] ?>" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 flex flex-col items-center" title="View Trees">
+                                    <i class="fas fa-tree"></i> View Trees
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
                     <tr>
-                    <td>
-                          <?php if(!empty($user['Photo_Path'])) { ?>
-                            <img src="<?= htmlspecialchars($uploads_folder. $user['Photo_Path']) ?>" alt="Profile Picture" class="rounded-circle" style="width: 50px; height: 50px;">
-                          <?php } else { ?>
-                            <span>No Image</span>
-                          <?php } ?>
-                        <td><?= htmlspecialchars($user['First_Name']) ?></td>
-                        <td><?= htmlspecialchars($user['Last_Name1']) ?></td>
-                        <td><?= htmlspecialchars($user['Username']) ?></td>
-                        <td><?= htmlspecialchars($user['Email']) ?></td>
-                        <td class="text-center">
-                          <a href="friend_trees.php?id=<?= $user['Id_User'] ?>" class="btn btn-edit" title="Edit">
-                            <i class="fa-solid fa-pen-to-square fa-lg"></i>
-                          </a>
-                        </td>
+                        <td colspan="6" class="text-center text-gray-500 py-4">No friends found</td>
                     </tr>
-                <?php }  
-              } 
-            ?>
-        </tbody>
-    </table>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.4.2/dist/cdn.min.js" defer></script>

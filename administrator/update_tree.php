@@ -100,4 +100,3 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
 
     <a href="../administrator/manage_trees.php" class="btn btn-secondary mt-3">Manage Trees</a>
 </div>
-<?php require('../inc/footer.php'); ?>

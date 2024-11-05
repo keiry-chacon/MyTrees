@@ -11,9 +11,9 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
     $tree = null; 
 
     if (isset($_GET['id'])) {
-        $id_tree = (int)$_GET['id'];
-        $treeID = getTreeById($id_tree);
-        $species = getSpecies();
+        $id_tree    = (int)$_GET['id'];
+        $treeID     = getTreeById($id_tree);
+        $species    = getSpecies();
 
         if (!is_array($treeID) || empty($treeID)) {
             die("Tree not found.");
@@ -62,7 +62,8 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
         </div>
 
         <button type="submit" class="btn btn-primary"> Register Tree update </button> 
+
     </form>
+
     <a href="../administrator/manage_friends.php" class="btn btn-secondary mt-3">Manage Friends</a>
 </div>
-<?php require('../inc/footer.php'); ?>

@@ -40,7 +40,7 @@ $profilePic = $uploads_folder . ($_SESSION['ProfileImage']). '?' . time();
 </header>
 
 
-<div style="margin-left: 260px; padding: 20px;">
+<div style="margin-left: 230px; padding: 20px 10px;">
     <!-- Aquí va el contenido principal de la página -->
 </div>
 

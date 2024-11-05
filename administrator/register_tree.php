@@ -5,6 +5,7 @@
 */
 
 include('../utils/administrator/admin_functions.php');
+
 $species = getSpecies();  
 $tree = [
     'Specie_Id' => 1 
@@ -71,8 +72,9 @@ if(isset($_GET['error'])) {
       </div>
 
       <button type="submit" class="btn btn-primary"> Add Specie </button>
+
     </form>
+    
     <a href="../administrator/admin.php" class="btn btn-secondary mt-3">Administration</a>
   </div>
-<?php require('../inc/footer.php');
 

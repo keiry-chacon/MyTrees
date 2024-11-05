@@ -1,7 +1,7 @@
 <?php
 
 /*
-* Form that adds a specie
+* Form that adds a new specie
 */
 
 include('../utils/administrator/admin_functions.php');
@@ -41,8 +41,7 @@ if(isset($_GET['error'])) {
       <button type="submit" class="btn btn-primary"> Add Specie </button>
 
     </form>
-    
+
     <a href="../administrator/admin.php" class="btn btn-secondary mt-3">Administration</a>
   </div>
-<?php require('../inc/footer.php');
 

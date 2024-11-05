@@ -283,7 +283,7 @@ function updateSpecieStatus(int $id_specie, int $statusS): bool {
 
 
 /*
-* Gets the trees from the database
+* Gets the trees from the database with species names
 */
 function getTrees(): array {
     $conn = getConnection();
@@ -291,8 +291,19 @@ function getTrees(): array {
 
     if ($conn) {
         $query = "
-            SELECT Id_Tree, Specie_Id, Location, Size, StatusT, Price, Photo_Path 
-            FROM trees 
+            SELECT 
+                t.Id_Tree, 
+                t.Specie_Id, 
+                CONCAT(s.Commercial_Name, ' (', s.Scientific_Name, ')') AS Specie_Name,
+                t.Location, 
+                t.Size, 
+                t.StatusT, 
+                t.Price, 
+                t.Photo_Path 
+            FROM 
+                trees AS t
+            JOIN 
+                species AS s ON t.Specie_Id = s.Id_Specie
         ";
 
         $result = mysqli_query($conn, $query);
@@ -300,15 +311,14 @@ function getTrees(): array {
         if ($result) {
             while ($row = mysqli_fetch_assoc($result)) {
                 $trees[] = [
-                    'Id_Tree'       => $row['Id_Tree'],       
-                    'Specie_Id'     => $row['Specie_Id'],     
-                    'Location'      => $row['Location'],  
-                    'Size'          => $row['Size'],             
-                    'StatusT'       => $row['StatusT'],   
-                    'Price'         => $row['Price'],             
-                    'Photo_Path'    => $row['Photo_Path'],             
-          
-           
+                    'Id_Tree'     => $row['Id_Tree'],       
+                    'Specie_Id'   => $row['Specie_Id'],     
+                    'Specie_Name' => $row['Specie_Name'],   
+                    'Location'    => $row['Location'],  
+                    'Size'        => $row['Size'],             
+                    'StatusT'     => $row['StatusT'],   
+                    'Price'       => $row['Price'],             
+                    'Photo_Path'  => $row['Photo_Path'],             
                 ];
             }
 
@@ -323,6 +333,7 @@ function getTrees(): array {
     }
     return $trees;
 }
+
 
 
 

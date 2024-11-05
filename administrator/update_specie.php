@@ -9,8 +9,8 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
     $specie = null; 
 
     if (isset($_GET['id'])) {
-        $id_specie = (int)$_GET['id'];
-        $specieID = getSpecieById($id_specie);
+        $id_specie  = (int)$_GET['id'];
+        $specieID   = getSpecieById($id_specie);
 
         if (!is_array($specieID) || empty($specieID)) {
             die("Specie not found.");
@@ -53,10 +53,9 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
             <input id="scientific-name" class="form-control" type="text" name="scientific_name" value="<?php echo htmlspecialchars($specie['Scientific_Name']); ?>">
         </div>
 
-        <button type="submit" class="btn btn-primary"> Update User </button> 
+        <button type="submit" class="btn btn-primary"> Update Specie </button> 
 
     </form>
 
     <a href="../administrator/manage_species.php" class="btn btn-secondary mt-3">Manage Species</a>
 </div>
-<?php require('../inc/footer.php'); ?>
