@@ -1,19 +1,15 @@
-/* General Dashboard Styles */
 body {
-    font-family: 'Roboto', sans-serif; /* Cambia a una fuente más moderna */
-    background-color: #2c2c2c; /* Fondo oscuro */
-    color: #ffffff; /* Texto en blanco para contraste */
-}
+    font-family: 'Roboto', sans-serif;
+    background-color: #2c2c2c; 
+    color: #ffffff; 
 
 main {
     padding: 20px;
 }
 
-/* Header Style */
 header .navbar {
-    background-color: #1f1f1f; /* Fondo más oscuro para la barra de navegación */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
-}
+    background-color: #1f1f1f; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); 
 
 header .navbar-brand {
     display: flex;
@@ -27,10 +23,9 @@ header .navbar-brand img {
 }
 
 header .navbar-nav .nav-link {
-    color: #ffffff; /* Enlaces en blanco para mejor visibilidad */
+    color: #ffffff; 
 }
 
-/* Statistics Cards */
 .statistics {
     display: flex;
     gap: 20px;
@@ -38,8 +33,8 @@ header .navbar-nav .nav-link {
 }
 
 .stat {
-    background-color: #3a3a3a; /* Fondo más claro para los contenedores */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+    background-color: #3a3a3a;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); 
     border-radius: 8px;
     padding: 20px;
     flex: 1;
@@ -47,45 +42,40 @@ header .navbar-nav .nav-link {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    transition: transform 0.2s ease; /* Animación suave */
+    transition: transform 0.2s ease;
 }
 
 .stat:hover {
-    transform: translateY(-5px); /* Elevación al pasar el mouse */
-}
+    transform: translateY(-5px); 
 
 .stat h3 {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 5px;
-    color: #ffffff; /* Color de texto en blanco */
+    color: #ffffff;
 }
 
 .stat p {
     font-size: 16px;
-    color: #ffffff; /* Color de texto en blanco */
+    color: #ffffff; 
 }
 
-/* Modifica el estilo del contenedor de gráficos */
 .chart-container {
-    align-items: center; /* Centra los gráficos horizontalmente */
-    margin-bottom: 20px; /* Espacio entre los gráficos */
+    align-items: center; 
+    margin-bottom: 20px; 
 }
 
-/* Asegúrate de que los gráficos tengan el mismo tamaño */
 canvas {
-    width: 100% !important; /* Forzar a los gráficos a ocupar todo el ancho disponible */
+    width: 100% !important; 
 }
 
 
-/* Colors for Charts */
 .chart-bar {
     background-color: rgba(75, 192, 192, 0.2);
     border-color: rgba(75, 192, 192, 1);
     border-width: 1;
 }
 
-/* Gender Chart (Pie) Colors */
 .chart-pie {
     background-color: ['#FF6384', '#36A2EB', '#FFCE56'];
 }

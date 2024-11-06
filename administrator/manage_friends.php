@@ -52,7 +52,10 @@ if (isset($_GET['error'])) {
                         <tr class="border-b">
                             <td class="text-center px-6 py-4">
                                 <?php if (!empty($user['Photo_Path'])) : ?>
-                                    <img src="<?= htmlspecialchars($uploads_folder . $user['Photo_Path']) ?>" alt="Profile Picture" class="rounded-full w-12 h-12 mx-auto">
+                                    <?php
+                                        $image_url = htmlspecialchars($uploads_folder . $user['Photo_Path']) . '?' . time();
+                                        ?>
+                                        <img src="<?= $image_url; ?>" alt="Profile Picture" class="rounded-full w-12 h-12 mx-auto">
                                 <?php else : ?>
                                     <span class="text-gray-400">No Image</span>
                                 <?php endif; ?>

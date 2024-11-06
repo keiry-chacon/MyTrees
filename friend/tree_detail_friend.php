@@ -28,7 +28,7 @@ if (empty($trees)) {
             <div class="w-full max-w-3xl bg-white rounded-lg shadow-lg border border-gray-200 p-6 transform transition hover:scale-105">
                 <div class="flex flex-col md:flex-row">
                     <div class="flex-shrink-0 md:w-1/2 mb-4 md:mb-0">
-                        <img src="<?php echo $uploads_folder_t . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>" class="w-full h-auto max-h-72 object-contain rounded-lg shadow-md">
+                        <img src="<?php echo $uploads_folder_t . $tree['Photo_Path']. '?' . time(); ?>" alt="<?php echo $tree['Commercial_Name']; ?>" class="w-full h-auto max-h-72 object-contain rounded-lg shadow-md">
                     </div>
 
                     <div class="md:ml-6 w-full">

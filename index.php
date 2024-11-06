@@ -42,10 +42,10 @@
 <script>
  function showLoginForm() {
     const formContainer = document.getElementById("form-container");
-    formContainer.style.display = "flex"; // Cambia la propiedad de display aquí
+    formContainer.style.display = "flex"; 
     setTimeout(() => {
         formContainer.classList.add("show");
-    }, 10); // Espera un poco para que el display flex se aplique antes de agregar la clase
+    }, 10); 
 }
 
 

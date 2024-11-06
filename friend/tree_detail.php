@@ -35,36 +35,30 @@ if (isset($_GET['id'])) {
     <div class="bg-white max-w-6xl rounded-xl shadow-lg p-10 relative ml-60 transform transition-transform duration-500 hover:shadow-2xl">
         
         <div class="flex flex-col md:flex-row items-center gap-6">
-            <!-- Image Section -->
             <div class="md:w-1/2 p-4">
-                <img class="w-full h-96 object-cover rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl" src="<?php echo $uploads_folder . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>">
+                <img class="w-full h-96 object-contain rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl" src="<?php echo $uploads_folder . $tree['Photo_Path']. '?' . time(); ?>" alt="<?php echo $tree['Commercial_Name']; ?>">
             </div>
 
-            <!-- Details Section -->
+
             <div class="md:w-1/2 p-4 space-y-6">
                 
-                <!-- Commercial Name -->
                 <div class="text-3xl font-bold text-gray-800 hover:text-blue-500 transition-colors duration-300">
                     <?php echo $tree['Commercial_Name']; ?>
                 </div>
 
-                <!-- Scientific Name -->
                 <div class="text-xl italic text-gray-500">
                     <?php echo $tree['Scientific_Name']; ?>
                 </div>
 
-                <!-- Location -->
                 <div class="text-md text-gray-600">
                     <i class="fas fa-map-marker-alt mr-1 text-red-400"></i> 
                     Location: <?php echo $tree['Location']; ?>
                 </div>
 
-                <!-- Price -->
                 <div class="text-4xl font-semibold text-gray-800 mt-4">
                     ₡<?php echo number_format($tree['Price'], 2, ',', '.'); ?>
                 </div>
 
-                <!-- Size Selection -->
                 <div class="mt-4">
                     <label class="block text-gray-600 font-semibold">Size:</label>
                     <div class="flex space-x-2 mt-1">
@@ -72,7 +66,6 @@ if (isset($_GET['id'])) {
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="flex space-x-6 mt-6">
                     <form method="POST">
                         <input type="hidden" name="tree_id" value="<?php echo $tree['Id_Tree']; ?>">
@@ -89,12 +82,10 @@ if (isset($_GET['id'])) {
     </div>
 </div>
 
-<!-- Modal for Purchase Form -->
 <div id="purchaseModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-end items-center backdrop-blur-sm">
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
         <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Purchase Form</h1>
 
-        <!-- Purchase Summary -->
         <div class="mb-8">
             <h2 class="text-2xl font-semibold text-gray-700 mb-2">Purchase Summary</h2>
             <img src="<?php echo $uploads_folder . $tree['Photo_Path']; ?>" alt="<?php echo $tree['Commercial_Name']; ?>" class="w-full h-48 object-contain rounded-lg shadow-md mb-4">
@@ -119,7 +110,6 @@ if (isset($_GET['id'])) {
                 </select>
             </div>
 
-            <!-- Pay Now Button -->
             <button type="submit" class="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 transition duration-200">Pay Now</button>
             <button type="button" onclick="closePurchaseForm()" class="mt-4 w-full py-2 bg-red-500 text-white rounded-lg">Cancel</button>
         </form>

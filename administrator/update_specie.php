@@ -3,6 +3,7 @@
 /*
 * Form that updates a specie
 */
+require_once '../inc/header_admin.php'; 
 
 require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
 
@@ -24,8 +25,8 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
     $error_msg = $_GET['error'];
     }
 ?>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<?php require('../inc/header_admin.php')?>
 <div class="container-fluid">
     <div class="jumbotron">
         <h1 class="display-4">Update Specie</h1>

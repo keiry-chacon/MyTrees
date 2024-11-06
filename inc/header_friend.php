@@ -95,19 +95,17 @@ displayCartItems($cartItems, $uploads_folder_t);
     };
 
     document.getElementById('profile-link').addEventListener('click', function(event) {
-        event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+        event.preventDefault(); 
         const submenu = document.getElementById('profile-submenu');
-        submenu.classList.toggle('hidden'); // Alternar visibilidad usando clases de Tailwind
+        submenu.classList.toggle('hidden'); 
     });
 
     function toggleCartPanel(event) {
-    event.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+    event.preventDefault(); 
     const cartPanel = document.getElementById('cart-panel');
-    // Alternar visibilidad
-    cartPanel.classList.toggle('hidden'); // Usar clases de Tailwind para mostrar/ocultar
+    cartPanel.classList.toggle('hidden'); 
 }
 
-    // Función para eliminar un artículo del carrito
     function removeFromCart(treeId) {
         if (confirm('¿Estás seguro de que deseas eliminar este artículo del carrito?')) {
             fetch('../remove_from_cart.php', {
@@ -120,7 +118,7 @@ displayCartItems($cartItems, $uploads_folder_t);
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload(); // Recargar la página para actualizar el carrito
+                    location.reload(); 
                 } else {
                     alert(data.message);
                 }

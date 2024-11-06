@@ -25,7 +25,7 @@ $uploads_folder = "../uploads_tree/";
         <div id="available-trees" class="product-container text-center mt-12">
     <div class="tree-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-6">
         <?php foreach ($trees as $tree):
-            $photoTree = $uploads_folder . $tree['Photo_Path'];
+            $photoTree = $uploads_folder . $tree['Photo_Path']. '?' . time();
             $treeDetailUrl = "tree_detail.php?id=" . $tree['Id_Tree']; ?>
             <a href="<?php echo $treeDetailUrl; ?>" class="card bg-white rounded-lg border-2 border-gray-300 shadow-2xl p-4 transition-transform transform hover:scale-105 hover:shadow-2xl">
                 <img src="<?php echo $photoTree; ?>" alt="Tree Image" class="w-full h-48 object-contain rounded-lg mb-4">

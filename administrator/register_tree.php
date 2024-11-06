@@ -3,6 +3,7 @@
 /*
 * Form that adds a new tree
 */
+require_once '../inc/header_admin.php'; 
 
 include('../utils/administrator/admin_functions.php');
 
@@ -14,8 +15,8 @@ if(isset($_GET['error'])) {
   $error_msg = $_GET['error'];
 }
 ?>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<?php require('../inc/header_admin.php')?>
   <div class="container-fluid">
     <div class="jumbotron">
       <h1 class="display-4">Register Tree</h1>
@@ -71,7 +72,7 @@ if(isset($_GET['error'])) {
         <input type="file" class="form-control" name="photoPath" id="photoPath" accept="image/png, image/jpeg" multiple="true">
       </div>
 
-      <button type="submit" class="btn btn-primary"> Add Specie </button>
+      <button type="submit" class="btn btn-primary"> Add Tree </button>
 
     </form>
     

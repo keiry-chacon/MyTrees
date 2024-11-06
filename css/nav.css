@@ -1,21 +1,21 @@
 .dropdown-menu {
     position: absolute;
-    top: 100%; /* Coloca el submenú justo debajo del nombre de usuario */
-    right: 0; /* Alineado a la derecha de la barra de navegación */
+    top: 100%; 
+    right: 0; 
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 4px;
-    z-index: 1000; /* Asegúrate de que esté encima de otros elementos */
-    width: 150px; /* Ancho fijo para limitar el tamaño */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+    z-index: 1000; 
+    width: 150px; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
 }
 
 .dropdown-item {
-    padding: 10px 15px; /* Reduce un poco el padding */
-    text-decoration: none; /* Evitar subrayado */
-    color: black; /* Color del texto */
+    padding: 10px 15px;
+    text-decoration: none; 
+    color: black; 
 }
 
 .dropdown-item:hover {
-    background-color: #f1f1f1; /* Cambia el color al pasar el ratón */
+    background-color: #f1f1f1;
 }

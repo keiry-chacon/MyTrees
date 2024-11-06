@@ -5,58 +5,69 @@ $profilePic = $uploads_folder . ($_SESSION['ProfileImage']). '?' . time();
 
 ?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<body class="font-sans bg-gray-100">
+    <header>
+    <nav class="fixed top-0 left-0 h-full w-64 bg-gray-300 shadow-lg flex flex-col p-4 z-50"> 
+            <a href="#" id="profile-link" class="flex flex-col items-center mb-8 p-4 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
+                <img src="<?php echo htmlspecialchars($profilePic); ?>" alt="Profile Image" class="w-20 h-20 rounded-full border-4 border-white mb-3 object-cover">
+                <div class="text-center font-semibold text-gray-700"><?php echo htmlspecialchars($_SESSION['Username']); ?></div>
+            </a>
+            <div id="profile-submenu" class="hidden flex-col p-4 space-y-2">
+                <a href="../inc/profile.php?username=<?php echo urlencode($_SESSION['Username']); ?>" class="text-gray-800 hover:text-white hover:bg-green-500 px-4 py-2 rounded flex items-center space-x-2">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="../actions/logout.php" class="text-gray-800 hover:text-white hover:bg-green-500 px-4 py-2 rounded flex items-center space-x-2">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Log Out</span>
+                </a>
+            </div>
 
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="height: 100vh; width: 250px; position: fixed; top: 0; left: 0; flex-direction: column; align-items: center;">
-        <a class="navbar-brand d-flex flex-column align-items-center mt-3" href="#" id="profileMenuToggle">
-            <img src="<?php echo htmlspecialchars($profilePic); ?>" alt="Profile Image" class="img-fluid rounded-circle" style="width: 100px; height: 100px;">
-            <div class="small text-center mt-2"><?php echo htmlspecialchars($_SESSION['Username']); ?></div> 
-        </a>
-        <div class="navbar-nav flex-column mt-4">
-            <a class="nav-item nav-link" href="../administrator/admin.php">
-                <i class="fas fa-home"></i> Home
-            </a>
-            <a class="nav-item nav-link" href="../administrator/manage_trees.php">
-                <i class="fas fa-tree"></i> Manage Trees
-            </a>
-            <a class="nav-item nav-link" href="../administrator/manage_species.php">
-                <i class="fas fa-seedling"></i> Manage Species
-            </a>
-            <a class="nav-item nav-link" href="../administrator/manage_friends.php">
-                <i class="fas fa-users"></i> Manage Friends
-            </a>
-        </div>
-
-        <!-- Submenú -->
-        <div id="profileSubmenu" class="dropdown-menu" aria-labelledby="profileMenuToggle" style="display: none;">
-            <a class="dropdown-item" href="../inc/profile.php?username=<?php echo urlencode($_SESSION['Username']); ?>">
-                <i class="fas fa-user"></i> Profile
-            </a>
-            <a class="dropdown-item" href="../actions/logout.php">
-                <i class="fas fa-sign-out-alt"></i> Log Out
-            </a>
-        </div>
-    </nav>
-</header>
+            <ul class="space-y-4">
+                <li>
+                    <a href="../administrator/admin.php" class="flex items-center px-4 py-2 text-gray-800 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
+                        <i class="fas fa-home mr-3"></i> Home
+                    </a>
+                </li>
+                <li>
+                    <a href="../administrator/manage_trees.php" class="flex items-center px-4 py-2 text-gray-800 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
+                        <i class="fas fa-tree mr-3"></i> Manage Trees
+                    </a>
+                </li>
+                <li>
+                    <a href="../administrator/manage_species.php" class="flex items-center px-4 py-2 text-gray-800 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
+                        <i class="fas fa-seedling mr-3"></i> Manage Species
+                    </a>
+                </li>
+                <li>
+                    <a href="../administrator/manage_friends.php" class="flex items-center px-4 py-2 text-gray-800 bg-gray-300 rounded-lg hover:bg-green-500 hover:text-white transition duration-300">
+                        <i class="fas fa-users mr-3"></i> Manage Friends
+                    </a>
+                </li>
+            </ul>
+            
+           
+        </nav>
+    </header>
 
 
 <div style="margin-left: 230px; padding: 20px 10px;">
-    <!-- Aquí va el contenido principal de la página -->
 </div>
 
 <script>
-    document.getElementById('profileMenuToggle').addEventListener('click', function(event) {
+     document.getElementById('profile-link').addEventListener('click', function(event) {
         event.preventDefault(); 
-        var submenu = document.getElementById('profileSubmenu');
-        submenu.style.display = submenu.style.display === 'none' || submenu.style.display === '' ? 'block' : 'none';
+        const submenu = document.getElementById('profile-submenu');
+        submenu.classList.toggle('hidden'); 
     });
 
-    window.addEventListener('click', function(event) {
-        var submenu = document.getElementById('profileSubmenu');
-        if (!event.target.closest('#profileMenuToggle') && !event.target.closest('#profileSubmenu')) {
-            submenu.style.display = 'none';
-        }
-    });
+  
+    window.onscroll = function() {
+        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        let scrolled = (winScroll / height) * 100;
+        document.getElementById('progress-bar').style.width = scrolled + "%"; 
+    };
 </script>
 
 <link rel="stylesheet" href="../css/header_admin.css"> 

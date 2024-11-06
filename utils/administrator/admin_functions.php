@@ -457,15 +457,13 @@ function updateTree($tree, $id_tree): bool {
     $Size              = $tree['size'];
     $StatusT           = $tree['statusT'];
     $Price             = $tree['price'];
-    $Photo_Path        = $tree['photoPath'] ?? null; 
 
     $sql = "UPDATE trees SET 
                 Specie_Id   = '$Specie_Id', 
                 Location    = '$Location', 
                 Size        = '$Size', 
                 StatusT     = '$StatusT', 
-                Price       = '$Price', 
-                Photo_Path  = '$Photo_Path' 
+                Price       = '$Price'
 
             WHERE Id_Tree = $id_tree";
 

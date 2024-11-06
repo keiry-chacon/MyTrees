@@ -3,10 +3,9 @@
 /*
 * Update the information of a tree
 */
-
 include('../../utils/administrator/admin_functions.php');
 
-$uploads_folder = $_SERVER["DOCUMENT_ROOT"]."/uploads_tree/";
+$uploads_folder = "../../uploads_tree/";
 
 $error_msg = '';
 
@@ -18,15 +17,22 @@ if ($_POST && isset($_POST['specie_id'])) {
   $tree['statusT']      = trim($_POST['statusT']);
   $tree['price']        = trim($_POST['price']);
 
-  $file_tmp     = $_FILES["photoPath"]["tmp_name"];
-  $file_name    = basename($_FILES["photoPath"]["name"]);
-  $target_file  = $uploads_folder . $file_name;
+  if (isset($_FILES['photoPath']) && $_FILES['photoPath']['error'] == UPLOAD_ERR_OK) {
+      $profileImage = $_FILES['photoPath'];
+      $currentImage = $id_tree; 
+      if ($currentImage && $currentImage !== "default_tree.png") {
+          $currentImagePath = $uploads_folder . $currentImage;
+          if (file_exists($currentImagePath)) {
+              unlink($currentImagePath); 
+          }
+      }
 
-  move_uploaded_file($file_tmp,$target_file);
-
-  $tree['photoPath']  = $file_name;
-
-  $required_fields    = ['specie_id', 'location', 'statusT', 'price'];
+      $newImageName =  $id_tree  . '.' . pathinfo($profileImage['name'], PATHINFO_EXTENSION); 
+      move_uploaded_file($profileImage['tmp_name'], $uploads_folder . $newImageName);
+      updateTreePic($id_tree, $newImageName); 
+    }
+ 
+  $required_fields    = ['location', 'price'];
 
   foreach ($required_fields as $field) {
     if (empty($tree[$field])) {

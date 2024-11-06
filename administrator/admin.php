@@ -27,7 +27,6 @@ $soldTreesCount = getSoldTreesCount();
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <main class="container mx-auto mt-10 p-4">
-    <!-- Título y descripción principal -->
     <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
         <h1 class="text-4xl font-bold text-center mb-4">¡Welcome!</h1>
         <p class="text-lg text-gray-700 text-center">
@@ -36,10 +35,8 @@ $soldTreesCount = getSoldTreesCount();
         </p>
     </div>
 
-    <!-- Contenedores de estadísticas en flexbox -->
     <div class="flex flex-col lg:flex-row gap-8">
         
-        <!-- Gráfico de Distribución de Amigos por Género -->
         <div class="bg-white shadow-lg rounded-lg p-6 w-full lg:w-1/2">
             <h2 class="text-xl font-semibold mb-4 text-center">Distribution of Friends by Gender</h2>
             <p class="text-gray-600 mb-6 text-sm text-center">
@@ -58,7 +55,6 @@ $soldTreesCount = getSoldTreesCount();
             </div>
         </div>
         
-        <!-- Gráfico de Comparación de Árboles Disponibles y Vendidos -->
         <div class="bg-white shadow-lg rounded-lg p-6 w-full lg:w-1/2">
             <h2 class="text-xl font-semibold mb-4 text-center">Comparison of Available and Sold Trees</h2>
             <p class="text-gray-600 mb-6 text-sm text-center">
@@ -68,7 +64,6 @@ $soldTreesCount = getSoldTreesCount();
         </div>
     </div>
 
-    <!-- Sección de mensajes adicionales -->
     <div class="bg-blue-50 shadow rounded-lg p-6 mt-8">
         <h2 class="text-xl font-semibold text-center text-blue-600">Aditional Information</h2>
         <p class="text-gray-700 mt-4">
@@ -82,7 +77,6 @@ $soldTreesCount = getSoldTreesCount();
 </main>
 
 <script>
-// Gráfico de comparación de árboles disponibles y vendidos
 const availableTreesCount = <?php echo $availableTreesCount; ?>;
 const soldTreesCount = <?php echo $soldTreesCount; ?>;
 
@@ -129,7 +123,6 @@ const treesComparisonChart = new Chart(ctxComparison, {
 </script>
 
 <script>
-// Gráfico de distribución de amigos por género
 const genders = {
     female: <?php echo $genders['F']; ?>,
     male: <?php echo $genders['M']; ?>,

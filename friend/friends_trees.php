@@ -29,7 +29,7 @@ $trees              = getFriendsTrees($_SESSION['Id_User']);
     <div class="relative border-2 border-gray-300 shadow-lg rounded-lg overflow-hidden mx-4">
         <div class="flex overflow-hidden">
             <?php foreach ($trees as $index => $tree): 
-                $photoTree = $uploads_folder_t . $tree['Photo_Path']; ?>
+                $photoTree = $uploads_folder_t . $tree['Photo_Path']. '?' . time(); ?>
                 <div class="carousel-item <?php echo ($index === 0) ? 'active' : ''; ?> w-full flex-shrink-0">
                     <a href="#" class="block bg-white rounded-lg transition-transform transform hover:scale-105" onclick="showTreeDetails(<?php echo $tree['Id_Tree']; ?>); return false;">
                         <img src="<?php echo $photoTree; ?>" alt="Tree Image" class="w-full h-48 object-contain rounded-lg">

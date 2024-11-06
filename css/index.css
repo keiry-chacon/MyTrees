@@ -47,30 +47,30 @@ section {
 }
 
 .form-container {
-    display: none; /* Oculto inicialmente */
+    display: none;
     flex: 1;
     justify-content: center;
-    align-items: center; /* Centra verticalmente */
-    opacity: 0; /* Opacidad inicial */
-    transform: translateY(20px); /* Mueve el contenedor hacia abajo */
-    transition: opacity 0.4s ease, transform 0.4s ease; /* Transiciones suaves */
+    align-items: center; 
+    opacity: 0; 
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease; 
 }
 
 .form-container.show {
-    display: flex; /* Muestra el contenedor */
-    opacity: 1; /* Opacidad final */
-    transform: translateY(0); /* Vuelve a su posición original */
-    animation: slideIn 0.5s forwards; /* Aplica la animación personalizada */
+    display: flex; 
+    opacity: 1; 
+    transform: translateY(0); 
+    animation: slideIn 0.5s forwards; 
 }
 
 @keyframes slideIn {
     0% {
         opacity: 0;
-        transform: translateY(20px); /* Comienza debajo */
+        transform: translateY(20px); 
     }
     100% {
         opacity: 1;
-        transform: translateY(0); /* Termina en la posición original */
+        transform: translateY(0); 
     }
 }
 
@@ -163,40 +163,36 @@ button:hover {
     text-decoration: underline;
 }
 
-/* Mobile styles */
 @media screen and (max-width: 480px) {
     .form-box {
         width: 90%;
         border-radius: 10px;
     }
 }
-/* Efecto de transición en el botón */
 button {
     transition: all 0.3s ease;
 }
 
 button:hover {
-    background-color: #e6ebe7; /* Color de fondo al pasar el mouse */
-    transform: scale(1.05); /* Escala ligeramente el botón */
+    background-color: #e6ebe7; 
+    transform: scale(1.05); 
 }
 
-/* Animación en campos de entrada */
 .inputbox input {
     transition: border 0.3s, box-shadow 0.3s;
 }
 
 .inputbox input:focus {
-    border-color: #66afe9; /* Cambia el color del borde al hacer foco */
-    box-shadow: 0 0 5px rgba(102, 175, 233, 0.8); /* Sombra al hacer foco */
+    border-color: #66afe9; 
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.8); 
 }
 
-/* Placeholder animado */
 .inputbox input::placeholder {
     transition: transform 0.3s, color 0.3s;
 }
 
 .inputbox input:focus::placeholder {
-    transform: translateY(-20px); /* Mueve el placeholder hacia arriba */
-    color: rgba(255, 255, 255, 0.6); /* Cambia el color del placeholder */
+    transform: translateY(-20px); 
+    color: rgba(255, 255, 255, 0.6); 
 }
 

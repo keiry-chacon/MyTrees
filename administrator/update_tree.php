@@ -3,10 +3,10 @@
 /*
 * Form that updates a tree
 */
+require_once '../inc/header_admin.php'; 
+require_once('../utils/administrator/admin_functions.php');
+$uploads_folder = "../uploads_tree/";
 
-require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
-
-    $action_path = $_SERVER["DOCUMENT_ROOT"] . "/MyTreesProject/actions/administrator/update_tree.php"; 
 
     $tree = null; 
 
@@ -26,9 +26,11 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
     if(isset($_GET['error'])) {
     $error_msg = $_GET['error'];
     }
+   
+    
 ?>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
-<?php require('../inc/header_admin.php')?>
 <div class="container-fluid">
     <div class="jumbotron">
         <h1 class="display-4">Update Tree</h1>
@@ -36,7 +38,7 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
         <hr class="my-4">
     </div>
 
-    <form method="post" action="<?php echo $action_path; ?>">
+    <form method="post" action="../actions/administrator/update_tree.php" enctype="multipart/form-data">
 
         <?php if ($error_msg): ?>
             <div class="alert alert-danger" role="alert">
@@ -83,15 +85,14 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
 
         <div class="form-group">
             <label for="photoPath">Tree Picture</label>
-            
-            <?php if (!empty($tree['photoPath'])): ?>
-                <div>
-                    <p>Current Image:</p>
-                    <img src="<?php echo htmlspecialchars($tree['Photo_Path']); ?>" alt="Tree Picture" style="max-width: 200px; height: auto;">
-                </div>
-            <?php endif; ?>
-            
-            <input type="file" class="form-control" name="photoPath" id="photoPath" accept="image/png, image/jpeg">
+
+            <div class="w-48 h-48 flex items-center justify-center bg-gray-100 border rounded">
+                <img id="imagePreview" 
+                    src="<?php echo !empty($tree['Photo_Path']) ? htmlspecialchars($uploads_folder . $tree['Photo_Path'] . '?' . time()) : ''; ?>" 
+                    alt="Tree Picture" 
+                    class="max-w-full max-h-full object-contain">
+            </div>
+            <input type="file" class="form-control" name="photoPath" id="photoPath" accept="image/png, image/jpeg" onchange="previewImage(event)">
         </div>
 
         <button type="submit" class="btn btn-primary"> Update Tree </button> 
@@ -100,3 +101,17 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
 
     <a href="../administrator/manage_trees.php" class="btn btn-secondary mt-3">Manage Trees</a>
 </div>
+<script>
+    function previewImage(event) {
+        const imagePreview = document.getElementById('imagePreview');
+        const file = event.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;  
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+</script>

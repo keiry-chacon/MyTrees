@@ -42,7 +42,6 @@
     <div style="position: relative; display: inline-block;">
         <img id="previewImage" src="img/default_profile.png"  class="rounded-circle" style="width: 150px; height: 150px;">
         
-        <!-- Icono de lápiz -->
         <span class="edit-icon" style="position: absolute; top: 10px; right: 10px; cursor: pointer;" id="editProfilePic">
             <i class="fas fa-pencil-alt"></i>
         </span>
@@ -92,14 +91,12 @@
                 <label for="province">Province</label>
                 <select id="province" class="form-control" name="province" required onchange="loadDistricts()">
                     <option value="">Select Province</option>
-                    <!-- Opciones que serán actualizadas dinámicamente con AJAX -->
                 </select>
             </div>
             <div class="form-group">
                 <label for="district">District</label>
                 <select id="district" class="form-control" name="district" required>
                     <option value="">Select District</option>
-                    <!-- Opciones que serán actualizadas dinámicamente con AJAX -->
                 </select>
             </div>
             <div class="form-group">
@@ -113,7 +110,6 @@
             <button type="submit" class="btn btn-primary">Sign up</button>
         </form>
     </div>
-    <!-- AJAX para actualizar las provincias y distritos -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     const fileInput = document.getElementById('profilePic');
@@ -121,18 +117,18 @@
     const editProfilePic = document.getElementById('editProfilePic');
 
     fileInput.addEventListener('change', function(event) {
-        const file = event.target.files[0]; // Obtener el primer archivo seleccionado
+        const file = event.target.files[0]; 
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                previewImage.src = e.target.result; // Cambiar la fuente de la imagen de vista previa
+                previewImage.src = e.target.result; 
             }
-            reader.readAsDataURL(file); // Leer el archivo como una URL de datos
+            reader.readAsDataURL(file); 
         }
     });
 
     editProfilePic.addEventListener('click', function() {
-        fileInput.click(); // Simular un clic en el input de archivo
+        fileInput.click(); 
     });
 </script>
 

@@ -77,13 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <div class="container mx-auto mt-5">
-    <a href="<?php echo ($userRole === '1') ? '../administrator/admin.php' : '../friend/friend.php'; ?>" class="close-button">
-        <i class="fas fa-times"></i> <!-- Icono de "X" -->
+    <a href="<?php echo ($userRole == '1') ? '../administrator/admin.php' : '../friend/friend.php'; ?>" class="close-button">
+        <i class="fas fa-times"></i> 
     </a>
     <div class="max-w-lg mx-auto bg-white shadow-lg rounded-lg">
         <div class="p-5 text-center">
             <div class="relative inline-block mb-4">
-                <img src="<?php echo htmlspecialchars($profileImage); ?>" alt="Imagen de Perfil" class="profile-image">
+                <img src="<?php echo htmlspecialchars($profileImage); ?>" alt="Profile Image" class="profile-image">
                 <span class="absolute top-2 right-2 cursor-pointer edit-icon">
                     <i class="fas fa-pencil-alt text-blue-600 text-xl"></i>
                 </span>
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <form action="profile.php?username=<?php echo urlencode($username); ?>" method="POST" enctype="multipart/form-data" class="mt-3">
                 <input type="file" name="profileImage" id="profileImage" accept="image/*" style="display: none;">
-                <button type="submit" class="btn btn-primary mt-2 hidden" id="submitImage">Actualizar Imagen</button>
+                <button type="submit" class="btn btn-primary mt-2 hidden" id="submitImage"> Update Image</button>
             </form>
 
             <div class="mt-4">
@@ -154,10 +154,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     document.getElementById('profileImage').addEventListener('change', function(event) {
         var reader = new FileReader();
         reader.onload = function(e) {
-            document.querySelector('.profile-image').src = e.target.result; // Cambia la imagen a la nueva seleccionada
+            document.querySelector('.profile-image').src = e.target.result; 
         }
         reader.readAsDataURL(event.target.files[0]);
-        document.getElementById('submitImage').classList.remove('hidden'); // Muestra el botón de actualización
+        document.getElementById('submitImage').classList.remove('hidden'); 
     });
 
     document.getElementById('edit-username').addEventListener('click', function() {

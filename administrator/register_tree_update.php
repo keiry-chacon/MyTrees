@@ -6,7 +6,6 @@
 
 require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
 
-    $action_path = $_SERVER["DOCUMENT_ROOT"] . "/MyTreesProject/actions/administrator/update_friend_tree.php"; 
 
     $tree = null; 
 
@@ -32,6 +31,8 @@ require_once(__DIR__ . '/../utils/administrator/admin_functions.php');
 ?>
 
 <?php require('../inc/header_admin.php')?>
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
 <div class="container-fluid">
     <div class="jumbotron">
         <h1 class="display-4">Register Tree Update</h1>

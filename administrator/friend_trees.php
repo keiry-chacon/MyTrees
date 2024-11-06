@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 /*
 * Tree Friend Interview
 */
@@ -14,7 +13,7 @@ if (isset($_GET['id'])) {
     $userID     = (int)$_GET['id'];
     $trees      = getFriendsTrees($userID); 
     if (!is_array($trees) || empty($trees)) {
-        die("User not found or no trees available.");
+        $trees = [];  // Avoid further errors when displaying the "no trees" message
     }
 }
 
@@ -42,26 +41,35 @@ if(isset($_GET['error'])) {
         </div>
     <?php endif; ?>
 
-    <div class="mt-6 max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <?php foreach ($trees as $tree):
-            $photoTree          = $uploads_folder_t . $tree['Photo_Path'];
-            $treeDetailUrl      = "update_friend_tree.php?id=" . $tree['Id_Tree']; // Updates all tree information
-            $treeRegisterUrl    = "register_tree_update.php?id=" . $tree['Id_Tree']; // Register update of a tree
-        ?>
-            <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                <img src="<?php echo $photoTree; ?>" alt="Tree Picture" class="w-full h-32 object-contain mx-auto">
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold"><?php echo htmlspecialchars($tree['Commercial_Name']); ?></h3>
-                    <p class="text-gray-600">Location: <?php echo htmlspecialchars($tree['Location']); ?></p>
-                    <p class="text-gray-600">Purchase date: <?php echo htmlspecialchars(date('Y-m-d', strtotime($tree['Purchase_Date']))); ?></p>
-                    <div class="mt-4 flex justify-between">
-                        <a href="<?php echo $treeDetailUrl; ?>" class="bg-yellow-500 text-white px-1 py-2 rounded hover:bg-yellow-600">Update Tree</a>
-                        <a href="<?php echo $treeRegisterUrl; ?>" class="bg-green-500 text-white px-1 py-2 rounded hover:bg-green-600">Register Update</a>
+    <!-- Check if no trees are available -->
+    <?php if (empty($trees)): ?>
+        <div class="bg-blue-100 text-blue-600 text-center py-4 rounded-lg shadow-md max-w-4xl mx-auto">
+            <h2 class="text-2xl font-semibold">Oh no!</h2>
+            <p class="mt-2 text-xl">It looks like this friend doesn't have any trees yet.</p>
+            <p class="mt-4 text-gray-600">Maybe they’ll have some soon. Stay tuned!</p>
+        </div>
+    <?php else: ?>
+        <div class="mt-6 max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <?php foreach ($trees as $tree):
+                $photoTree          = $uploads_folder_t . $tree['Photo_Path']. '?' . time();
+                $treeDetailUrl      = "update_friend_tree.php?id=" . $tree['Id_Tree']; 
+                $treeRegisterUrl    = "register_tree_update.php?id=" . $tree['Id_Tree']; 
+            ?>
+                <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <img src="<?php echo $photoTree; ?>" alt="Tree Picture" class="w-full h-32 object-contain mx-auto">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold"><?php echo htmlspecialchars($tree['Commercial_Name']); ?></h3>
+                        <p class="text-gray-600">Location: <?php echo htmlspecialchars($tree['Location']); ?></p>
+                        <p class="text-gray-600">Purchase date: <?php echo htmlspecialchars(date('Y-m-d', strtotime($tree['Purchase_Date']))); ?></p>
+                        <div class="mt-4 flex justify-between">
+                            <a href="<?php echo $treeDetailUrl; ?>" class="bg-yellow-500 text-white px-1 py-2 rounded hover:bg-yellow-600">Update Tree</a>
+                            <a href="<?php echo $treeRegisterUrl; ?>" class="bg-green-500 text-white px-1 py-2 rounded hover:bg-green-600">Register Update</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.4.2/dist/cdn.min.js" defer></script>
